@@ -1,5 +1,5 @@
 # JavaScript-Demo
-#JavaScript30 js实现的小功能
+原项目[#JavaScript30](30daysofjs.michaeleinsohn.com)
 
 ## [爵士鼓](https://github.com/afetmin/JavaScript-Demo/tree/master/JavaScript%20Drum%20Kit)
 ![带音效的爵士鼓](https://github.com/afetmin/JavaScript-Demo/blob/master/JavaScript%20Drum%20Kit/boom.gif)
