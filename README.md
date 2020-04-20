@@ -14,4 +14,4 @@ js实现的小功能
 ![正则匹配古诗](https://github.com/afetmin/JavaScript-Demo/blob/master/Fetch%E6%AD%A3%E5%88%99%E5%8F%A4%E8%AF%97%E5%8C%B9%E9%85%8D/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E5%8F%A4%E8%AF%97.gif)
 
 ## [画廊](https://github.com/afetmin/JavaScript-Demo/tree/master/Flex%20Panel%20Gallery)
-![画廊](https://github.com/afetmin/JavaScript-Demo/tree/master/Flex%20Panel%20Gallery)
+![画廊](https://github.com/afetmin/JavaScript-Demo/blob/master/Flex%20Panel%20Gallery/gallery.gif)
