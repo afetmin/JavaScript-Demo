@@ -5,7 +5,7 @@
 ![带音效的爵士鼓](https://github.com/afetmin/JavaScript-Demo/blob/master/JavaScript%20Drum%20Kit/boom.gif)
 
 ## [CSS时钟](https://github.com/afetmin/JavaScript-Demo/tree/master/CSS%20CLOCK)
-![时钟](https://github.com/afetmin/JavaScript-Demo/blob/master/CSS%20CLOCK/clock.gif)
+![时钟](https://github.com/afetmin/JavaScript-Demo/blob/master/CSS%20CLOCK/css%20clock.gif)
 
 ## [CSS变量效果](https://github.com/afetmin/JavaScript-Demo/tree/master/CSS%E5%8F%98%E9%87%8F)
 ![CSS变量](https://github.com/afetmin/JavaScript-Demo/blob/master/CSS%E5%8F%98%E9%87%8F/css%20veriables.gif)
@@ -15,3 +15,6 @@
 
 ## [画廊](https://github.com/afetmin/JavaScript-Demo/tree/master/Flex%20Panel%20Gallery)
 ![画廊](https://github.com/afetmin/JavaScript-Demo/blob/master/Flex%20Panel%20Gallery/gallery.gif)
+
+## [彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/tree/master/HTML5%20canvas)
+![彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/blob/master/HTML5%20canvas/html5%20canvas.gif)
