@@ -15,3 +15,6 @@
 
 ## [画廊](https://github.com/afetmin/JavaScript-Demo/tree/master/Flex%20Panel%20Gallery)
 ![画廊](https://github.com/afetmin/JavaScript-Demo/blob/master/Flex%20Panel%20Gallery/gallery.gif)
+
+##[彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/tree/master/HTML5%20canvas)
+![彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/blob/master/HTML5%20canvas/html5%20canvas.gif)
