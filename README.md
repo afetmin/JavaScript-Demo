@@ -17,8 +17,5 @@
 ![画廊](https://github.com/afetmin/JavaScript-Demo/blob/master/Flex%20Panel%20Gallery/gallery.gif)
 
 ## [彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/tree/master/HTML5%20canvas)
-<<<<<<< HEAD
 ![彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/blob/master/HTML5%20canvas/html5%20canvas.gif)
-=======
-![彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/blob/master/HTML5%20canvas/html5%20canvas.gif)
->>>>>>> a0d5f4bac41d9bfaa52b367beff6704c74568f5d
+
