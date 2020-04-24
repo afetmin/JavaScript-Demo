@@ -19,3 +19,6 @@
 ## [彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/tree/master/HTML5%20canvas)
 ![彩虹特效画图](https://github.com/afetmin/JavaScript-Demo/blob/master/HTML5%20canvas/html5%20canvas.gif)
 
+## [自定义播放器](https://github.com/afetmin/JavaScript-Demo/tree/master/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%92%AD%E6%94%BE%E5%99%A8)
+![自定义播放器](https://github.com/afetmin/JavaScript-Demo/blob/master/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%92%AD%E6%94%BE%E5%99%A8/%E6%92%AD%E6%94%BE%E5%99%A8.gif)
+
