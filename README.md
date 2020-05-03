@@ -27,3 +27,6 @@
 
 ## [鼠标移动字体改变](https://github.com/afetmin/JavaScript-Demo/tree/master/%E5%AD%97%E4%BD%93%E6%95%88%E6%9E%9C%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E6%94%B9%E5%8F%98)
 ![鼠标移动字体改变](https://github.com/afetmin/JavaScript-Demo/blob/master/%E5%AD%97%E4%BD%93%E6%95%88%E6%9E%9C%E9%9A%8F%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E6%94%B9%E5%8F%98/mouse%20shadow.gif)
+
+## [鼠标跟随效果](https://github.com/afetmin/JavaScript-Demo/tree/master/follow%20along%20link%20highlighter)
+![鼠标跟随效果](https://github.com/afetmin/JavaScript-Demo/blob/master/follow%20along%20link%20highlighter/mouse%20enter.gif)
