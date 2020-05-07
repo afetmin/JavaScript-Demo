@@ -30,3 +30,6 @@
 
 ## [鼠标跟随效果](https://github.com/afetmin/JavaScript-Demo/tree/master/follow%20along%20link%20highlighter)
 ![鼠标跟随效果](https://github.com/afetmin/JavaScript-Demo/blob/master/follow%20along%20link%20highlighter/mouse%20enter.gif)
+
+## [鼠标跟随下拉框](https://github.com/afetmin/JavaScript-Demo/tree/master/stripe%20follow%20along%20nav)
+![鼠标跟随下拉框](https://github.com/afetmin/JavaScript-Demo/blob/master/stripe%20follow%20along%20nav/mousemove.gif)
