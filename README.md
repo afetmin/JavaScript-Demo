@@ -33,3 +33,9 @@
 
 ## [鼠标跟随下拉框](https://github.com/afetmin/JavaScript-Demo/tree/master/stripe%20follow%20along%20nav)
 ![鼠标跟随下拉框](https://github.com/afetmin/JavaScript-Demo/blob/master/stripe%20follow%20along%20nav/mousemove.gif)
+
+## [倒计时](https://github.com/afetmin/JavaScript-Demo/tree/master/Countdown%20timer)
+![倒计时](https://github.com/afetmin/JavaScript-Demo/blob/master/Countdown%20timer/countdown.gif)
+
+## [打地鼠](https://github.com/afetmin/JavaScript-Demo/tree/master/%E6%89%93%E5%9C%B0%E9%BC%A0)
+![打地鼠](https://github.com/afetmin/JavaScript-Demo/blob/master/%E6%89%93%E5%9C%B0%E9%BC%A0/whack%20a%20mole.gif)
