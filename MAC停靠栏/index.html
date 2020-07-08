@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAC停靠栏</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    .wrapper  img {
+      width: 64px;
+    }
+    .wrapper a {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <a href="javascript:;"><img src="img/1.png" alt=""></a>
+    <a href="javascript:;"><img src="img/2.png" alt=""></a>
+    <a href="javascript:;"><img src="img/3.png" alt=""></a>
+    <a href="javascript:;"><img src="img/4.png" alt=""></a>
+    <a href="javascript:;"><img src="img/5.png" alt=""></a>
+
+  </div>
+</body>
+<script>
+  const r = 320
+  window.onload = function(){
+    imgs = document.querySelectorAll('.wrapper img')
+    document.onmousemove = function(e) {
+      e = e || window.event
+      for (let i=0,length = imgs.length;i<length;i++){
+        let a = imgs[i].getBoundingClientRect().left + imgs[i].offsetWidth / 2 - e.clientX
+        let b = imgs[i].getBoundingClientRect().top + imgs[i].offsetHeight / 2 - e.clientY
+        let c = Math.sqrt(a*a+b*b)
+        if (c>=r){
+          c=r
+        }
+        imgs[i].style.width = 128 - c * 0.2 + 'px'
+      }
+    }
+  }
+</script>
+</html>
