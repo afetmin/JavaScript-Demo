@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>旋转上升气泡</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #333;
+      }
+      canvas {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: whitesmoke;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+  </body>
+  <script>
+    window.onload = function () {
+      const canvas = document.querySelector("canvas");
+      // 通过css设置宽高会导致图像拉伸
+      canvas.width = 200;
+      canvas.height = 500;
+      if (canvas.getContext) {
+        const ctx = canvas.getContext("2d");
+        let arr = [];
+        //
+        setInterval(function () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          // 动画
+          for (let i = 0; i < arr.length; i++) {
+            arr[i].deg += 5;
+            arr[i].x =
+              arr[i].startX +
+              Math.sin((arr[i].deg * Math.PI) / 180) * arr[i].step * 2;
+            arr[i].y =
+              arr[i].startY - ((arr[i].deg * Math.PI) / 180) * arr[i].step*1.2;
+            if (arr[i].y <= 30) {
+              arr.splice(i, 1);
+            }
+          }
+          // 画图
+          for (let i = 0; i < arr.length; i++) {
+            ctx.save();
+            ctx.fillStyle = `rgba(${arr[i].red},${arr[i].green},${arr[i].blue},${arr[i].alpha})`;
+            ctx.beginPath();
+            ctx.arc(arr[i].x, arr[i].y, arr[i].r, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.restore();
+          }
+        }, 1000 / 60);
+        // 生成圆
+        setInterval(function () {
+          let r = Math.random() * 6 + 3;
+          let x = Math.random() * canvas.width;
+          let y = canvas.height - r;
+          let red = Math.floor(Math.random() * 255);
+          let green = Math.floor(Math.random() * 255);
+          let blue = Math.floor(Math.random() * 255);
+          let alpha = 1;
+
+          let deg = 0;
+          let startX = x;
+          let startY = y;
+          // 曲线的运动
+          let step = Math.random() * 20 + 10;
+          arr.push({
+            x,
+            y,
+            r,
+            red,
+            green,
+            blue,
+            alpha,
+            startX,
+            startY,
+            step,
+            deg,
+          });
+        }, 100);
+      }
+    };
+  </script>
+</html>
