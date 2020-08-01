@@ -13,3 +13,10 @@ function getTime() {
   $('#time').html(time_str)
 }
 setInterval(getTime, 1000)
+
+// 隐藏提示
+function clearTips() {
+  $('#option span').hide(300)
+}
+
+setTimeout(clearTips, 1000 * 12)

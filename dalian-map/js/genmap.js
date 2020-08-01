@@ -2,14 +2,15 @@ var result = [],
   points = [],
   all_paths = [],
   data,
-  pls = []
+  pls = [],
+  markers = []
 
-var opts = {
-  width: 250, // 信息窗口宽度
-  height: 80, // 信息窗口高度
-  title: '信息窗口', // 信息窗口标题
-  enableMessage: true, //设置允许信息窗发送短息
-}
+// var opts = {
+//   width: 250, // 信息窗口宽度
+//   height: 80, // 信息窗口高度
+//   title: '信息窗口', // 信息窗口标题
+//   enableMessage: true, //设置允许信息窗发送短息
+// }
 
 // 判断数组内是否含有字符串
 Array.prototype.contains = function (obj) {
@@ -25,6 +26,10 @@ Array.prototype.contains = function (obj) {
 var bmap = new BMap.Map('allmap')
 bmap.centerAndZoom(new BMap.Point(121.62, 38.92), 13)
 bmap.enableScrollWheelZoom(true)
+bmap.addControl(new BMap.NavigationControl({
+  anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+  type: BMAP_NAVIGATION_CONTROL_SMALL
+}))
 
 $.ajaxSettings.async = false
 $.getJSON('json/dalian_track.json', (res) => {
@@ -52,7 +57,7 @@ function getAllPath() {
     })
   })
 }
-console.log(result)
+// console.log(result)
 // 随机生成一种颜色
 function getColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16)
@@ -84,7 +89,7 @@ function addMarker(point, title = '') {
       }
     })
     // 先清除其他线
-    if ($('input:radio:checked').val() === '1'){
+    if ($('input:radio:checked').val() === '1') {
       pls.forEach((pl) => {
         bmap.removeOverlay(pl)
       })
@@ -102,6 +107,7 @@ function addMarker(point, title = '') {
       addPolyline(poly)
     })
   })
+  markers.push(marker)
   bmap.addOverlay(marker)
 }
 // 展开
@@ -117,6 +123,10 @@ function addAllMarker() {
   })
 }
 addAllMarker()
+var markerClusterer = new BMapLib.MarkerClusterer(bmap, {
+  markers: markers,
+  minClusterSize: 3,
+})
 
 // function addClickHandler(content, marker) {
 //   marker.addEventListener('dbclick', function (e) {

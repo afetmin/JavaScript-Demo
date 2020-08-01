@@ -5,6 +5,16 @@
   box-sizing: border-box;
   font-family: myfonts;
 }
+/* 清除百度图标 */
+.anchorBL a img{
+  display: none;
+}
+.anchorBL span span{
+  display: none;
+}
+body {
+  overflow: hidden;
+}
 .container {
   height: 95vh;
   display: flex;
@@ -61,4 +71,9 @@
 }
 #clear:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+#option span {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
 }
