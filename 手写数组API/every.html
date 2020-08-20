@@ -23,6 +23,9 @@
   */
   Array.prototype._every = function (fn, thisValue) {
     let arr = thisValue || this // thisValue 有值 就以thisValue 为准
+    if (typeof fn !== 'function') {
+      throw new TypeError(fn + ' is not a function')
+    }
     // 空数组检测
     if (!arr.length) {
       return true

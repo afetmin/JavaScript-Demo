@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /* 定义和用法：
+    filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+    注意： filter() 不会对空数组进行检测。
+    注意： filter() 不会改变原始数组。
+    语法:
+    array.filter(function(currentValue,index,arr), thisValue)
+ */
+  Array.prototype._filter = function (fn, thisValue) {
+    let arr = thisValue || this
+    let result = []
+    if (typeof fn !== 'function') {
+      throw new TypeError(fn + 'is not a function')
+    }
+    if (!arr.length) {
+      return result
+    }
+    for (let i = 0; i < arr.length; i++) {
+      if(fn.call(this,arr[i],i,arr)) {
+        result.push(arr[i])
+      }
+    }
+    return result
+  }
+
+  function checkResult(item) {
+    return item > 15
+  }
+  let arr = [45,25,10,9]
+  console.log(arr._filter(checkResult))
+</script>
+
+</html>
