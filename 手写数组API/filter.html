@@ -28,7 +28,7 @@
       return result
     }
     for (let i = 0; i < arr.length; i++) {
-      if(fn.call(this,arr[i],i,arr)) {
+      if (fn.call(this, arr[i], i, arr)) {
         result.push(arr[i])
       }
     }
@@ -38,7 +38,7 @@
   function checkResult(item) {
     return item > 15
   }
-  let arr = [45,25,10,9]
+  let arr = [45, 25, 10, 9]
   console.log(arr._filter(checkResult))
 </script>
 
