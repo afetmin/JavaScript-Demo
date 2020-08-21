@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /*定义和用法
+    map() 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+    map() 方法按照原始数组元素顺序依次处理元素。
+    注意： map() 不会对空数组进行检测。
+    注意： map() 不会改变原始数组。
+
+    语法
+    array.map(function(currentValue,index,arr), thisValue)
+  */
+  Array.prototype._map = function (fn, thisValue) {
+    let arr = thisValue || this
+    let result = []
+    if (typeof fn !== 'function') {
+      throw new TypeError(fn + 'is not a function')
+    }
+    for (let i = 0; i < arr.length; i++) {
+      let r = fn.call(this, arr[i], i, arr)
+      result.push(r)
+    }
+    return result
+  }
+
+  let arr = [4, 9, 16, 25]
+  console.log(arr._map((x) => {return x*x}))
+</script>
+
+</html>
