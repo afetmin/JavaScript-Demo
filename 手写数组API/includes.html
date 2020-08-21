@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /*定义和用法
+    includes() 方法用来判断一个数组是否包含一个指定的值，如果是返回 true，否则false。
+
+    语法
+    arr.includes(searchElement)
+    arr.includes(searchElement, fromIndex)
+  */
+  Array.prototype._includes = function (searchElement, fromIndex=0) {
+    let arr = this
+    if (fromIndex >= arr.length || !arr.length) {
+      return false
+    }
+    for(let i=fromIndex;i<arr.length;i++){
+      if(arr[i] === searchElement){
+        return true
+      }
+    }
+    return false
+  }
+
+  let arr = [4, 9, 16, 25]
+  console.log(arr._includes(16))
+</script>
+
+</html>
