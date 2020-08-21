@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /*定义和用法
+    from() 方法用于通过拥有 length 属性的对象或可迭代的对象来返回一个数组。
+    如果对象是数组返回 true，否则返回 false。
+
+    语法
+    Array.from(object, mapFunction, thisValue)
+  */
+  Array.prototype._from = function (object, mapFunction, thisValue) {
+    let obj = thisValue || this
+    let result = []
+    if (typeof mapFunction !== 'function') {
+      throw new TypeError(mapFunction + ' is not a function')
+    }
+    if (!object.length) {
+      return result
+    }
+    if (typeof object === 'string') {
+      result = obj.split('')
+    } else {
+      object.forEach(item => result.push(item))
+    }
+    return result.map(mapFunction, thisValue)
+  }
+
+  let arr = [4, 9, 16, 25]
+  console.log(arr._from(arr, x => x * 10))
+</script>
+
+</html>
