@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /*定义和用法
+    isArray() 方法用于判断一个对象是否为数组。
+    如果对象是数组返回 true，否则返回 false。
+
+    语法
+    Array.isArray(obj)
+  */
+  Array.prototype._isArray = function (obj) {
+    if (obj.__proto__.constructor === Array) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  let arr = [4, 9, 16, 25]
+  console.log(Array.prototype._isArray(arr))
+</script>
+
+</html>
