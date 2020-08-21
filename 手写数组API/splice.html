@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  /*定义和用法
+    splice() 方法用于添加或删除数组中的元素。
+    注意：这种方法会改变原始数组。
+
+    返回值
+    如果仅删除一个元素，则返回一个元素的数组。 如果未删除任何元素，则返回空数组。
+
+    语法
+    array.splice(index,howmany,item1,.....,itemX)
+  */
+  Array.prototype._splice = function (index, howmany = 0) {
+    let arr = [...this] //深拷贝原数组
+    let left = arr.slice(0, index)
+    let right = arr.slice(index + howmany, arr.length)
+    let subArr = Array.prototype.slice.call(arguments, 2) //截取需要添加的数组
+    let result = []
+    // 合并数组
+    result = [...left, ...subArr, ...right]
+    // 这里改变this，就是改变原数组
+    for (let i = 0; i < result.length; i++) {
+      this[i] = result[i]
+    }
+    // 返回删除的数据
+    return arr.slice(index, index + howmany)
+  }
+
+  let arr = ["Banana", "Orange", "Lemon", "Apple", "Mango"]
+  let result = arr._splice(2, 1, "sss", "xxx")
+  console.log(result) // ["Lemon"]
+  console.log(arr) // ["Banana", "Orange", "sss", "xxx", "Apple", "Mango"]
+</script>
+
+</html>
