@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  var arr = [1, 2, [3, 4, 5, [6, 7, 8], 9], 10, [11, 12]]
+  //1.递归实现
+  function flatten(arr) {
+    let res = []
+    arr.forEach((val) => {
+      if (val instanceof Array) {
+        res = res.concat(flatten(val))
+      } else {
+        res.push(val)
+      }
+    })
+    return res
+  }
+  console.log('递归：', flatten(arr))
+  //2.reduce实现
+  function flatt(arr) {
+    return arr.reduce((pre, cur) => {
+      return pre.concat(Array.isArray(cur) ? flatt(cur) : cur)
+    }, [])
+  }
+  console.log('reduce：', flatt(arr))
+  // 3.flat实现 参数为层数
+  console.log('flat:', arr.flat(Infinity))
+  // 4.扩展运算符
+  function flattt(arr) {
+    let res = []
+    let bstop = true
+    arr.forEach((val) => {
+      if (Array.isArray(val)) {
+        res.push(...val)
+        bstop = false
+      } else {
+        res.push(val)
+      }
+    })
+    if (bstop) {
+      return res
+    }
+    return flattt(res)
+  }
+  console.log('...:', flattt(arr))
+  // 5.toString
+  let res = arr.toString().split(',').map((val) => {
+    return parseInt(val)
+  })
+  console.log('toString:', res)
+  // 6.apply
+  function flatttt(arr) {
+    // 任一项是数组返回true
+    while (arr.some(item => Array.isArray(item))) {
+      // apply刚好是数组传参，concat刚好需要数组
+      arr = [].concat.apply([], arr)
+    }
+    return arr
+  }
+  console.log('apply:', flatttt(arr))
+</script>
+
+</html>
