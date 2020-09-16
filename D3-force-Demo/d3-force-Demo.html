@@ -130,7 +130,9 @@
       simulation.alpha(1).restart().tick();
       ticked(); // render now!
     }
-    updateNodes(newData)
+    setInterval(() => {
+      updateNodes(newData)
+    }, 2000)
   })
 </script>
 
