@@ -105,12 +105,12 @@
       }
     function updateNodes({newnodes,newlinks}) {
       nodes.push.apply(nodes,newnodes.map(d => Object.create(d)))
-      links.push.apply(nodes,newlinks.map(d => Object.create(d)))
-    console.log(nodes,links);
+      links.push.apply(links,newlinks.map(d => Object.create(d)))
       node = node
         .data(nodes, d => d.id)
         .join(enter => enter.append("circle")
           .attr("r", 5)
+          .attr("fill", d => scale(d.group))
           .call(drag(simulation))
           .call(node => node.append("title").text(d => d.id)));
 
