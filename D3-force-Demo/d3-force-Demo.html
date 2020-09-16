@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<svg width="960" height="600"></svg>
+
+<body>
+</body>
+<script>
+  d3.json('data.json').then((data) => {
+    var links = data.links.map(d => Object.create(d));
+    var nodes = data.nodes.map(d => Object.create(d));
+    const width = 600
+    const height = 600
+    const scale = d3.scaleOrdinal(d3.schemeCategory10);
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const svg = d3.select("svg")
+    var link = svg.append("g")
+      .attr("stroke", "#999")
+      .attr("stroke-opacity", 0.6)
+      .selectAll("line")
+      .data(links)
+      .join("line")
+      .attr("stroke-width", d => Math.sqrt(d.value));
+
+    var node = svg.append("g")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 1.5)
+      .selectAll("circle")
+      .data(nodes)
+      .join("circle")
+      .attr("r", 5)
+      .attr("fill", d => scale(d.group))
+      .call(drag(simulation));
+
+    node.append("title")
+      .text(d => d.id);
+
+    function ticked() {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+    }
+
+    simulation.on("tick", () => {
+      ticked()
+    });
+
+    function drag(simulation) {
+
+      function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+      }
+
+      function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+      }
+
+      function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+      }
+
+      return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+    const newData = {
+        "newnodes": [{
+          "id": "yi",
+          "group": 1
+        }, {
+          "id": "lun",
+          "group": 1
+        }],
+        "newlinks": [{
+          "source": "yi",
+          "target": "Myriel",
+          "value": 1
+        }, {
+          "source": "lun",
+          "target": "Myriel",
+          "value": 8
+        }]
+      }
+    function updateNodes({newnodes,newlinks}) {
+      nodes.push.apply(nodes,newnodes.map(d => Object.create(d)))
+      links.push.apply(nodes,newlinks.map(d => Object.create(d)))
+    console.log(nodes,links);
+      node = node
+        .data(nodes, d => d.id)
+        .join(enter => enter.append("circle")
+          .attr("r", 5)
+          .call(drag(simulation))
+          .call(node => node.append("title").text(d => d.id)));
+
+      link = link
+        .data(links, d => [d.source, d.target])
+        .join("line");
+
+      simulation.nodes(nodes);
+      simulation.force("link").links(links);
+      simulation.alpha(1).restart().tick();
+      ticked(); // render now!
+    }
+    updateNodes(newData)
+  })
+</script>
+
+</html>
