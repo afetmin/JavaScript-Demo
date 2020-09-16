@@ -6,8 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>D3</title>
   <script src="https://d3js.org/d3.v6.min.js"></script>
+  <style>
+    svg {
+      position: relative;
+      top: 50px;
+      left: 50px;
+    }
+  </style>
 </head>
-<svg width="960" height="600"></svg>
+<svg width="1200" height="900"></svg>
 
 <body>
 </body>
@@ -15,8 +22,8 @@
   d3.json('data.json').then((data) => {
     var links = data.links.map(d => Object.create(d));
     var nodes = data.nodes.map(d => Object.create(d));
-    const width = 600
-    const height = 600
+    const width = 1200
+    const height = 900
     const scale = d3.scaleOrdinal(d3.schemeCategory10);
     const simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id))
@@ -86,26 +93,26 @@
         .on("end", dragended);
     }
     const newData = {
-        "newnodes": [{
-          "id": "yi",
-          "group": 1
-        }, {
-          "id": "lun",
-          "group": 1
-        }],
-        "newlinks": [{
-          "source": "yi",
-          "target": "Myriel",
-          "value": 1
-        }, {
-          "source": "lun",
-          "target": "Myriel",
-          "value": 8
-        }]
-      }
-    function updateNodes({newnodes,newlinks}) {
-      nodes.push.apply(nodes,newnodes.map(d => Object.create(d)))
-      links.push.apply(links,newlinks.map(d => Object.create(d)))
+      "newnodes": [{
+        "id": "yi",
+        "group": 1
+      }, {
+        "id": "lun",
+        "group": 1
+      }],
+      "newlinks": [{
+        "source": "yi",
+        "target": "Myriel",
+        "value": 1
+      }, {
+        "source": "lun",
+        "target": "yi",
+        "value": 8
+      }]
+    }
+    function updateNodes({ newnodes, newlinks }) {
+      nodes.push.apply(nodes, newnodes.map(d => Object.create(d)))
+      links.push.apply(links, newlinks.map(d => Object.create(d)))
       node = node
         .data(nodes, d => d.id)
         .join(enter => enter.append("circle")
