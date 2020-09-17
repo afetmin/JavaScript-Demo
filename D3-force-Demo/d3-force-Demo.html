@@ -20,15 +20,15 @@
 </body>
 <script>
   d3.json('data.json').then((data) => {
-    var links = data.links.map(d => Object.create(d));
-    var nodes = data.nodes.map(d => Object.create(d));
+    var links = data.links.map(d => Object.create(d))
+    var nodes = data.nodes.map(d => Object.create(d))
     const width = 1200
     const height = 900
     const scale = d3.scaleOrdinal(d3.schemeCategory10);
     const simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id))
       .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("center", d3.forceCenter(width / 2, height / 2))
 
     const svg = d3.select("svg")
     var link = svg.append("g")
@@ -37,7 +37,7 @@
       .selectAll("line")
       .data(links)
       .join("line")
-      .attr("stroke-width", d => Math.sqrt(d.value));
+      .attr("stroke-width", d => Math.sqrt(d.value))
 
     var node = svg.append("g")
       .attr("stroke", "#fff")
@@ -47,21 +47,21 @@
       .join("circle")
       .attr("r", 5)
       .attr("fill", d => scale(d.group))
-      .call(drag(simulation));
+      .call(drag(simulation))
 
     node.append("title")
-      .text(d => d.id);
+      .text(d => d.id)
 
     function ticked() {
       link
         .attr("x1", d => d.source.x)
         .attr("y1", d => d.source.y)
         .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
+        .attr("y2", d => d.target.y)
 
       node
         .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
+        .attr("cy", d => d.y)
     }
 
     simulation.on("tick", () => {
@@ -71,26 +71,26 @@
     function drag(simulation) {
 
       function dragstarted(event) {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        event.subject.fx = event.subject.x;
-        event.subject.fy = event.subject.y;
+        if (!event.active) simulation.alphaTarget(0.3).restart()
+        event.subject.fx = event.subject.x
+        event.subject.fy = event.subject.y
       }
 
       function dragged(event) {
-        event.subject.fx = event.x;
-        event.subject.fy = event.y;
+        event.subject.fx = event.x
+        event.subject.fy = event.y
       }
 
       function dragended(event) {
-        if (!event.active) simulation.alphaTarget(0);
-        event.subject.fx = null;
-        event.subject.fy = null;
+        if (!event.active) simulation.alphaTarget(0)
+        event.subject.fx = null
+        event.subject.fy = null
       }
 
       return d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
-        .on("end", dragended);
+        .on("end", dragended)
     }
     const newData = {
       "newnodes": [{
@@ -119,7 +119,7 @@
           .attr("r", 5)
           .attr("fill", d => scale(d.group))
           .call(drag(simulation))
-          .call(node => node.append("title").text(d => d.id)));
+          .call(node => node.append("title").text(d => d.id)))
 
       link = link
         .data(links, d => [d.source, d.target])
@@ -127,9 +127,10 @@
         .attr("stroke-width", d => Math.sqrt(d.value))
 
       simulation.nodes(nodes);
-      simulation.force("link").links(links);
-      simulation.alpha(1).restart().tick();
-      ticked(); // render now!
+      simulation.force("link").links(links)
+      // alpha时衰减值，1表示重新模拟，逐步递减到一个值
+      simulation.alpha(1).restart().tick()
+      ticked() // render now!
     }
     setInterval(() => {
       updateNodes(newData)
