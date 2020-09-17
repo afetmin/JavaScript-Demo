@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <style>
+    .container {
+      position: relative;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .range {
+      margin: 5px 5px;
+    }
+    .range span {
+      display: inline-block;
+      width: 50px;
+    }
+
+    #charts {
+      width: 800px;
+      height: 700px;
+      /* position: absolute;
+      top: 20px;
+      right: 20px; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="options">
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="30" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0" max="20" step="1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="0.5" max="1.3" step="0.1">
+      </div>
+      <div class="range">
+        <span>50: </span><input type="range" value="10" min="2.25" max="2.55" step="0.1">
+      </div>
+    </div>
+    <div id="charts"></div>
+  </div>
+</body>
+<script>
+  var $inputNodes = $('.range input')
+  var lineChart = echarts.init(document.getElementById('charts'))
+
+  var RONS = []
+  var LIUS = []
+
+  for (let i = 0; i < $inputNodes.length; i++) {
+    // 默认值
+    const $input = $($inputNodes[i])
+    const mid = ((parseFloat($input[0].max) + parseFloat($input[0].min))/ 2).toFixed(2)
+    $input.prev().html(`${mid}`)
+    $input[0].defaultValue = mid
+
+    // 事件
+    $input.on('change', function (e) {
+      $(this).prev().html(`${this.value}`)
+      // 这里是计算出RON和硫含量的
+
+    })
+  }
+  var option = {
+    title: {
+      text: '变化轨迹'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['辛烷值', '硫含量']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['1', '2', '3', '4', '5', '6', '7']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+        name: '辛烷值',
+        type: 'line',
+        stack: '总量',
+        data: [120, 132, 101, 134, 90, 230, 210]
+      },
+      {
+        name: '硫含量',
+        type: 'line',
+        stack: '总量',
+        data: [220, 182, 191, 234, 290, 330, 310]
+      }
+    ]
+  };
+  lineChart.setOption(option)
+</script>
+
+</html>
