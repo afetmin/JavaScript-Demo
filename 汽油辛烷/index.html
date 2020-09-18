@@ -14,9 +14,11 @@
       justify-content: space-around;
       align-items: center;
     }
+
     .range {
       margin: 5px 5px;
     }
+
     .range span {
       display: inline-block;
       width: 50px;
@@ -24,7 +26,7 @@
 
     #charts {
       width: 800px;
-      height: 700px;
+      height: 500px;
       /* position: absolute;
       top: 20px;
       right: 20px; */
@@ -83,7 +85,9 @@
 </body>
 <script>
   var $inputNodes = $('.range input')
-  var lineChart = echarts.init(document.getElementById('charts'))
+  var lineChart = echarts.init(document.getElementById('charts'), {
+    renderer: 'svg'
+  })
 
   var RONS = []
   var LIUS = []
@@ -91,7 +95,7 @@
   for (let i = 0; i < $inputNodes.length; i++) {
     // 默认值
     const $input = $($inputNodes[i])
-    const mid = ((parseFloat($input[0].max) + parseFloat($input[0].min))/ 2).toFixed(2)
+    const mid = ((parseFloat($input[0].max) + parseFloat($input[0].min)) / 2).toFixed(2)
     $input.prev().html(`${mid}`)
     $input[0].defaultValue = mid
 
@@ -104,13 +108,14 @@
   }
   var option = {
     title: {
-      text: '变化轨迹'
+      text: ''
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: ['辛烷值', '硫含量']
+      data: ['辛烷值', '硫含量'],
+      top:'15',
     },
     grid: {
       left: '3%',
@@ -125,8 +130,8 @@
     },
     xAxis: {
       type: 'category',
-      boundaryGap: false,
-      data: ['1', '2', '3', '4', '5', '6', '7']
+      boundaryGap: true,
+      data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     },
     yAxis: {
       type: 'value'
@@ -134,14 +139,29 @@
     series: [{
         name: '辛烷值',
         type: 'line',
-        stack: '总量',
-        data: [120, 132, 101, 134, 90, 230, 210]
+        symbolSize:8,
+        itemStyle: {
+          normal: {
+            label: {
+              show: true
+            }
+          }
+        },
+        data: [88.24, 88.63, 89.02, 89.41, 89.8, 90.2, 90.59, 90.98, 91.37, 91.76]
       },
       {
         name: '硫含量',
         type: 'line',
-        stack: '总量',
-        data: [220, 182, 191, 234, 290, 330, 310]
+        symbol:'triangle',
+        symbolSize:8,
+        itemStyle: {
+          normal: {
+            label: {
+              show: true
+            }
+          }
+        },
+        data: [3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 3.2, 3.2]
       }
     ]
   };
