@@ -19,7 +19,8 @@
 <body>
 </body>
 <script>
-  d3.json('data.json').then((data) => {
+  d3.json('test.json').then((data) => {
+    var allnodesandlinks = data
     var links = data.links.map(d => Object.create(d))
     var nodes = data.nodes.map(d => Object.create(d))
     const width = 1200
@@ -92,25 +93,37 @@
         .on("drag", dragged)
         .on("end", dragended)
     }
-    const newData = {
-      "newnodes": [{
-        "id": "yi",
-        "group": 1
-      }, {
-        "id": "lun",
-        "group": 1
-      }],
-      "newlinks": [{
-        "source": "yi",
-        "target": "Myriel",
-        "value": 1
-      }, {
-        "source": "lun",
-        "target": "yi",
-        "value": 8
-      }]
+
+
+    function genNewData(num) {
+      let groupList = [1, 2, 3]
+      let a = num
+      let groupin = []
+      let group = groupList[Math.floor(Math.random() * groupList.length)]
+      let value = Math.floor(Math.random() * 5 + 2)
+      for (let node of allnodesandlinks.nodes) {
+        if (node.group === group) {
+          groupin.push(node.id)
+        }
+      }
+      let target = groupin[Math.floor(Math.random() * groupin.length)]
+      return {
+        "newnodes": [{
+          "id": a,
+          "group": group
+        }],
+        "newlinks": [{
+          "source": a,
+          "target": target,
+          "value": value
+        }]
+      }
     }
-    function updateNodes({ newnodes, newlinks }) {
+
+    function updateNodes({
+      newnodes,
+      newlinks
+    }) {
       nodes.push.apply(nodes, newnodes.map(d => Object.create(d)))
       links.push.apply(links, newlinks.map(d => Object.create(d)))
       node = node
@@ -132,9 +145,22 @@
       simulation.alpha(1).restart().tick()
       ticked() // render now!
     }
+    let num = 10
     setInterval(() => {
+      let newData = {
+        "newnodes": [],
+        "newlinks": []
+      }
+      for (let i = 0; i < 5; i++) {
+        let data = genNewData(i + num)
+        newData.newnodes.push(data.newnodes[0])
+        newData.newlinks.push(data.newlinks[0])
+      }
+      allnodesandlinks.nodes = allnodesandlinks.nodes.concat(newData.newnodes)
+      allnodesandlinks.links = allnodesandlinks.links.concat(newData.newlinks)
       updateNodes(newData)
-    }, 2000)
+      num += 5
+    }, 3000)
   })
 </script>
 

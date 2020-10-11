@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+
+    var yearCount = 6;
+    var categoryCount = 30;
+
+    var xAxisData = ['经营范围变更', '高级管理人员备案', '投资人变更', '注册资本变更', '负责人变更', '地址变更', '期限变更', '章程备案', '分支机构备案', '市场主体类型变更',
+      '联络员备案', '中方注册资本', '投资总额变更', '外方注册资本', '财务负责人'
+    ];
+    var customData = [];
+    var legendData = [];
+    var dataList = [];
+
+    legendData.push('trend');
+    var encodeY = [];
+    for (var i = 0; i < yearCount; i++) {
+      legendData.push((2015 + i) + '');
+      encodeY.push(1 + i);
+    }
+    for(let i=0;i<xAxisData.length;i++) {
+      customData.push([])
+    }
+    // for (var i = 0; i < categoryCount; i++) {
+    //   var val = Math.random() * 1000;
+    //   xAxisData.push('category' + i);
+    //   var customVal = [i];
+    //   customData.push(customVal);
+
+    //   for (var j = 0; j < dataList.length; j++) {
+    //     var value = j === 0 ?
+    //       echarts.number.round(val, 2) :
+    //       echarts.number.round(Math.max(0, dataList[j - 1][i] + (Math.random() - 0.5) * 200), 2);
+    //     dataList[j].push(value);
+    //     customVal.push(value);
+    //   }
+    // }
+
+    dataList = [
+      [59, 54, 46, 59, 26, 24, 24, 15, 0, 7, 1, 0, 6, 4, 0],
+      [60, 65, 62, 59, 27, 29, 19, 5, 3, 16, 95, 5, 6, 7, 34],
+      [77, 74, 74, 46, 38, 45, 32, 4, 5, 9, 60, 3, 2,2, 16],
+      [61, 90, 78, 54, 33, 49, 17, 8, 3, 20, 24, 4, 7, 4, 11],
+      [84, 96, 72, 37, 46, 60, 27, 8, 7, 22, 28, 3, 0, 4, 17],
+      [69, 66, 36, 30, 27, 25, 23, 11, 10, 9, 4, 3, 2, 2, 1]
+    ]
+
+    var newArray = dataList[0].map(function (col, i) {
+      return dataList.map(function (row) {
+        return row[i];
+      })
+    });
+    for (let i = 0; i < xAxisData.length; i++) {
+      customData[i].push(i)
+      customData[i] = customData[i].concat(newArray[i])
+    }
+
+    console.log(customData);
+    function renderItem(params, api) {
+      var xValue = api.value(0);
+      var currentSeriesIndices = api.currentSeriesIndices();
+      var barLayout = api.barLayout({
+        barGap: '30%',
+        barCategoryGap: '20%',
+        count: currentSeriesIndices.length - 1
+      });
+
+      var points = [];
+      for (var i = 0; i < currentSeriesIndices.length; i++) {
+        var seriesIndex = currentSeriesIndices[i];
+        if (seriesIndex !== params.seriesIndex) {
+          var point = api.coord([xValue, api.value(seriesIndex)]);
+          point[0] += barLayout[i - 1].offsetCenter;
+          point[1] -= 20;
+          points.push(point);
+        }
+      }
+      var style = api.style({
+        stroke: api.visual('color'),
+        fill: null
+      });
+
+      return {
+        type: 'polyline',
+        shape: {
+          points: points
+        },
+        style: style
+      };
+    }
+
+    option = {
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data: legendData
+      },
+      dataZoom: [{
+        type: 'slider',
+        start: 50,
+        end: 70
+      }, {
+        type: 'inside',
+        start: 50,
+        end: 70
+      }],
+      xAxis: {
+        data: xAxisData
+      },
+      yAxis: {},
+      series: [{
+        type: 'custom',
+        name: 'trend',
+        renderItem: renderItem,
+        itemStyle: {
+          borderWidth: 2
+        },
+        encode: {
+          x: 0,
+          y: encodeY
+        },
+        data: customData,
+        z: 100
+      }].concat(echarts.util.map(dataList, function (data, index) {
+        return {
+          type: 'bar',
+          animation: true,
+          name: legendData[index + 1],
+          itemStyle: {
+            opacity: 0.9
+          },
+          data: data
+        };
+      }))
+    };;
+    if (option && typeof option === "object") {
+      myChart.setOption(option, true);
+    }
+  </script>
+</body>
+
+</html>
