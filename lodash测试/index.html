@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.9.0/lodash.js"></script>
+  <script src="track.js"></script>
+</head>
+
+<body>
+
+</body>
+<script>
+  const data = _.chain(TrackJSON)
+    .reduce((obj, d) => {
+      const key = `${d.nlRange}_${d.xb}`;
+      obj[key] = {
+        sex: d.xb,
+        nlRange: d.nlRange,
+        count: obj[key] ? obj[key].count + 1 : 1,
+      }
+      return obj;
+    }, {})
+    .values()
+    .value();
+</script>
+
+</html>
