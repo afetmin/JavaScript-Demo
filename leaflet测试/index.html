@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet">
+  <script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+  <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' /> -->
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+</body>
+<script>
+  var map = L.map('map', {
+    center: [38.9181714, 121.6282945],
+    zoom: 11
+  })
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: '',
+    maxZoom: 18,
+    id: 'mapbox/light-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYWZldG1pbiIsImEiOiJja2gydzFqamEweTNxMnVvM2dxNDNyc2g3In0.w4QOTp81VLnqOkh6PTfO1Q'
+  }).addTo(map);
+  L.marker([38.9181714, 121.6282945]).addTo(map)
+  L.marker([38.9696, 121.610392]).addTo(map)
+</script>
+
+</html>
