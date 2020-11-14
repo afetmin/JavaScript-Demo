@@ -20,13 +20,23 @@
     #map {
       height: 100vh;
     }
+    .yes {
+      z-index: 500;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      margin: 10px;
+    }
   </style>
 </head>
 
 <body>
   <div id="map"></div>
+  <button class="yes">dasdasd</button>
 </body>
 <script>
+  var btn = document.querySelector('.yes')
+  btn.onclick = justify_location
   function addCircleMarker(obj) {
     const {
       lng,
@@ -35,14 +45,17 @@
     } = obj
     let color = radius < 20 ? 'red' : 'blue'
     L.circle([lat, lng], {
-      radius:radius*2,
-      color:color,
-      stroke:false,
-      fillOpacity:0.2,
+      radius: radius * 2,
+      color: color,
+      stroke: false,
+      fillOpacity: 0.2,
     }).addTo(map)
   }
+
   function addPolyLine(arr) {
-    let ployline = L.polyline(arr,{color:'red'}).addTo(map)
+    let ployline = L.polyline(arr, {
+      color: 'red'
+    }).addTo(map)
     map.fitBounds(polyline.getBounds())
   }
   axios.get('./data.json').then((res) => {
@@ -52,7 +65,7 @@
     //   return [lat,lng]
     // })
     data.forEach((point) => {
-      addCircleMarker(point)
+      // addCircleMarker(point)
     })
     // addPolyLine(points)
   })
@@ -69,6 +82,47 @@
     accessToken: 'pk.eyJ1IjoiYWZldG1pbiIsImEiOiJja2gydzFqamEweTNxMnVvM2dxNDNyc2g3In0.w4QOTp81VLnqOkh6PTfO1Q'
   }).addTo(map);
 
+
+  function justify_location() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      // 支持
+      console.log("支持地理位置接口");
+    } else {
+      // 不支持
+      console.log("不支持地理位置接口");
+    }
+  }
+
+  //同意授权
+
+  function geoSuccess(event) {
+    let lat = event.coords.latitude
+    let lng = event.coords.longitude
+    map.flyTo([lat, lng])
+
+
+  }
+  //拒绝授权
+
+  function geoError(error) {
+    console.log(error)
+    console.log("Error code " + error.code + ". " + error.message);
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert("定位失败,用户拒绝请求地理定位");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert("定位失败,位置信息是不可用");
+        break;
+      case error.TIMEOUT:
+        alert("定位失败,请求获取用户位置超时");
+        break;
+      case error.UNKNOWN_ERROR:
+        alert("定位失败,定位系统失效");
+        break;
+    }
+  }
 </script>
 
 </html>
