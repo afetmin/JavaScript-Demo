@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/d3/6.2.0/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.19/lodash.min.js"></script>
+</head>
+
+<body>
+  <svg></svg>
+
+
+  <script>
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const pathWidth = 120
+    const perRow = Math.floor(width / pathWidth)
+
+    const topGenres = ["Action", "Comedy", "Animation", "Drama"];
+    const petalColors = ["#ffc8f0", "#cbf2bd", "#afe9ff", "#ffb09e"];
+    const petalPaths = [
+      "M0 0 C50 50 50 100 0 100 C-50 100 -50 50 0 0",
+      "M-35 0 C-25 25 25 25 35 0 C50 25 25 75 0 100 C-25 75 -50 25 -35 0",
+      "M0,0 C50,40 50,70 20,100 L0,85 L-20,100 C-50,70 -50,40 0,0",
+      "M0 0 C50 25 50 75 0 100 C-50 75 -50 25 0 0"
+    ];
+
+
+    function scrollSVG(svg) {
+      return `<div style='max-height:${width/2}px;overflow-y:scroll;overflow-x:hidden;'>${svg}</div>`
+    }
+
+    // 根据index索引生成[x,y]的位置
+    function calculateGridPos(i) {
+      return [(i % perRow + 0.5) * pathWidth, (Math.floor(i / perRow) + 0.5) * pathWidth]
+    }
+
+    // 通过各种比例尺生成最后需要展示的数据格式
+    function calculateData(movies) {
+      // 花瓣颜色
+      const colorScale = d3
+        .scaleOrdinal() // domain和range都是离散的
+        .domain(topGenres)
+        .range(petalColors)
+        .unknown("#fff2b4");
+      // 花瓣类型
+      const petalScale = d3.scaleOrdinal().range(petalPaths);
+
+      // 花瓣大小
+      const sizeScale = d3
+        .scaleLinear()
+        .domain(d3.extent(movies, (d) => d.rating))
+        .range([0.1, 0.6]);
+      // 花瓣数量
+      const numPetalScale = d3
+        .scaleQuantize() // 定义域是连续的，输出域是离散的
+        .domain(d3.extent(movies, (d) => d.votes))
+        .range(_.range(5, 10));
+
+      return _.map(movies, (d, i) => {
+        return {
+          title: d.title,
+          color: colorScale(d.genres[0]),
+          path: petalScale(d.rated),
+          scale: sizeScale(d.rating),
+          numPetals: numPetalScale(d.votes),
+          translate: calculateGridPos(i)
+        };
+      });
+    }
+
+    d3.json("movies.json").then((movies) => {
+
+      const svgHeight = (Math.ceil(movies.length / perRow) + 0.5) * pathWidth
+
+      const flowers = calculateData(movies);
+      console.log(flowers);
+      const svg = d3
+        .select("svg")
+        .attr("width", width)
+        .attr("height", svgHeight);
+
+      const g = svg.selectAll('g')
+        // enter根据data添加占位符 placeholder，有多少添加多少(135个)， append是真正添加的
+        .data(flowers).enter().append('g')
+
+      const path = g.selectAll('path')
+        // 返回的是数组，数组长度是花瓣数量，数组内的每个对象是每朵花的所有数据 [{},{},{},{},{}]
+        .data(d => {
+          return _.times(d.numPetals, i => {
+            // create a copy of the parent data, and add in calculated rotation
+            return {
+              ...d,
+              rotate: i * (360 / d.numPetals)
+            }
+          })
+          // 数组有几个生成几个path
+        }).enter().append('path')
+
+      // 每个花朵的位置
+      g.attr('transform', (d, i) => `translate(${d.translate})`)
+
+      // 设置每个path的属性
+      path.attr('transform', d => `rotate(${d.rotate})scale(${d.scale})`)
+        .attr('d', d => d.path)
+        .attr('fill', d => d.color)
+        .attr('fill-opacity', 0.5)
+        .attr('stroke', d => d.color)
+
+      // 直接在每个g中添加text标签
+      const text = g.append('text')
+      // 设置text属性
+      text.text(d => d.title)
+        .attr('text-anchor', 'middle')
+        .attr('dy', '.35em')
+        .style('font-size', '.7em')
+        .style('font-style', 'italic')
+        .text(d => _.truncate(d.title, {
+          length: 20
+        }))
+
+
+    })
+  </script>
+</body>
+
+</html>
