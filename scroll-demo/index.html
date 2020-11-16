@@ -32,6 +32,14 @@
       border: 1px solid #333;
       box-shadow: 0 0 15px rgba(0, 0, 0, .3);
     }
+    .text-wrapper {
+      width: 200px;
+      border-radius: 5px;
+      border:1px solid #333;
+      color: white;
+      position: fixed;
+      z-index: 9999;
+    }
   </style>
 </head>
 
@@ -48,6 +56,9 @@
       <li class="card8">8</li>
       <li class="card9">9</li>
     </ul>
+    <div class="text-wrapper">
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem tenetur voluptas vitae ab omnis nulla asperiores atque repellendus? Nobis blanditiis id at a culpa mollitia neque minima facere odio aliquid.</p>
+    </div>
   </div>
 </body>
 <script>
@@ -81,6 +92,9 @@
 
     }
   }
+
+  $('.text-wrapper').attr('data-10',`top:${height}px;left:-${$('.text-wrapper').width()}px;`)
+  $('.text-wrapper').attr(`data-${height-$('.text-wrapper').height()}`,`top:${height-$('.text-wrapper').height()}px;left:${$('.text-wrapper').width()}px;`)
 
   const s = skrollr.init({
     // forceHeight: false,
