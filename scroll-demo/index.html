@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/skrollr/0.6.9/skrollr.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/d3/6.2.0/d3.min.js"></script>
+  <link rel="stylesheet" href="./reset.css">
+  <style>
+    body {
+      background-color: #333;
+    }
+
+    ul.card li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1001;
+      position: fixed;
+      border-radius: 1.3rem;
+      -webkit-border-radius: 1.3rem;
+      text-align: center;
+      top: 20%;
+      left: 400px;
+      background-size: 100% 100%;
+      overflow: hidden;
+      background-color: #fff;
+      border: 1px solid #333;
+      box-shadow: 0 0 15px rgba(0, 0, 0, .3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <ul class="card">
+      <li class="card1">1</li>
+      <li class="card2">2</li>
+      <li class="card3">3</li>
+      <li class="card4">4</li>
+      <li class="card5">5</li>
+      <li class="card6">6</li>
+      <li class="card7">7</li>
+      <li class="card8">8</li>
+      <li class="card9">9</li>
+    </ul>
+  </div>
+</body>
+<script>
+  const width = $(window).width()
+  const height = $(window).height()
+  const cardWidth = width / 8
+  const cardHeight = cardWidth * 1.35
+  const cardShift = cardWidth * 0.8
+  const leftMargin = (width - cardShift * 9.25) / 2;
+  const leftInit = width / 2 - cardWidth / 2
+  const topInit = height * 0.35
+
+  cardInit()
+
+  function cardInit() {
+    for (var i = 0; i < 9; i++) {
+      var tmp = $(".card").find("li").eq(i).attr("data-10");
+      var cardWidth400 = 26;
+      var cardHeight400 = 36;
+      var top = height * 0.35 + Math.abs(i - 4) * Math.abs(i - 4) * 9
+      var top400 = 5;
+      var left = i * cardShift + leftMargin
+      var left400 = ((width - 640) / 2 + 80 * i)
+      $(".card").find("li").eq(i).attr("data-10", `transform:rotate(${6.8333*(i+1) - 34.167
+}deg);` + " top:" + top + "px; left:" + left + "px; width:" + cardWidth +
+        "px; height:" + cardHeight + "px; border-radius: " + 1.3 +
+        "rem;  -webkit-border-radius: " + 1.3 + "rem;"+`font-size: 2rem`);
+      $(".card").find("li").eq(i).attr("data-" + (height - 100), "transform:rotate(0deg);" + " top:" + top400 +
+        "px; left:" + left400 + "px; width:" + cardWidth400 + "px; height:" + cardHeight400 +
+        "px; border-radius: 0.3rem;  -webkit-border-radius: 0.3rem;"+`font-size: 1rem`);
+
+    }
+  }
+
+  const s = skrollr.init({
+    // forceHeight: false,
+    // smoothScrolling: true
+  })
+</script>
+
+</html>
