@@ -58,19 +58,9 @@
     }).addTo(map)
     map.fitBounds(polyline.getBounds())
   }
-  axios.get('./data.json').then((res) => {
-    const data = res.data['7-1']
-    // let points = data.map((point) => {
-    //   const { lng,lat,_} = point
-    //   return [lat,lng]
-    // })
-    data.forEach((point) => {
-      // addCircleMarker(point)
-    })
-    // addPolyLine(points)
-  })
+
   var map = L.map('map', {
-    center: [38.9696, 121.610392],
+    center: [31.1774276, 121.5272106],
     zoom: 13
   })
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -81,7 +71,12 @@
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoiYWZldG1pbiIsImEiOiJja2gydzFqamEweTNxMnVvM2dxNDNyc2g3In0.w4QOTp81VLnqOkh6PTfO1Q'
   }).addTo(map);
-
+  let obj = {
+    lng:121.5272108045275,
+    lat:31.17742800708347,
+    value:50
+  }
+  addCircleMarker(obj)
 
   function justify_location() {
     if (navigator.geolocation) {
