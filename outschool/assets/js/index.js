@@ -1,7 +1,7 @@
 let vm = new Vue({
   el: '#app',
   data: {
-    visible: true,
+    visible: false,
     replys: [{
         id: 1,
         name: '审批编号',
