@@ -1,7 +1,7 @@
 let vm = new Vue({
   el: '#app',
   data: {
-    visible: false,
+    visible: true,
     replys: [{
         id: 1,
         name: '审批编号',
@@ -53,12 +53,25 @@ let vm = new Vue({
     ],
     submitTime: '',
     approvalTime: '',
+    currentTime: new Date().toLocaleString(),
     qingjia: 1,
     grade: '',
     content: '',
     name: ''
   },
-  mounted() {},
+  filters: {
+    fmt(val) {
+      return val.slice(12,16)
+    }
+  },
+  mounted() {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+    this.timer = setInterval(() => {
+      this.currentTime = new Date().toLocaleString()
+    }, 1000)
+  },
   methods: {
     getHtml() {
       this._formatTime()

@@ -38,6 +38,7 @@
       <input type="button" value="确认" id="confirm" @click="getHtml">
     </div>
     <div class="container" v-show="visible">
+      <div id="time">{{currentTime | fmt}}</div>
       <div class="img-header">
         <img src="assets/imgs/header.jpg" alt="">
       </div>

@@ -15,7 +15,16 @@ header {
   padding: 20px;
 }
 
+#time {
+  position: fixed;
+  z-index: 999;
+  top:13px;
+  left:15px;
+  font-size: 15px;
+  color: #fff;
+}
 .container {
+  position: relative;
   height: 100vh;
   width: 100%;
 }
