@@ -61,7 +61,7 @@ let vm = new Vue({
   },
   filters: {
     fmt(val) {
-      return val.slice(12,16)
+      return val.slice(11,16)
     }
   },
   mounted() {
@@ -69,7 +69,7 @@ let vm = new Vue({
       clearInterval(this.timer)
     }
     this.timer = setInterval(() => {
-      this.currentTime = new Date().toLocaleString()
+      this.currentTime = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 16).replace("T", " ")
     }, 1000)
   },
   methods: {
