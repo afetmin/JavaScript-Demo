@@ -5,9 +5,8 @@
   --via-border-color: rgb(167, 232, 167);
   --item-color: #9B9B9B;
   --font-color: rgb(165, 164, 164);
-  font-size: 18px;
+  font-size: 17px;
   font-family: '等线';
-  font-weight: 600;
   height: 100vh;
 }
 
@@ -18,7 +17,7 @@ header {
 #time {
   position: fixed;
   z-index: 999;
-  top:13px;
+  top:11px;
   left:15px;
   font-size: 15px;
   color: #fff;
@@ -33,7 +32,7 @@ header {
   position: fixed;
   z-index: 99;
   width: 100%;
-  height: 94px;
+  height: 85px;
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 1px 1px rgba(241, 241, 241, 0.2);
 }
@@ -45,7 +44,7 @@ header {
 
 .main-content {
   position: relative;
-  top: 95px;
+  top: 85px;
   left: 0;
   /* background: var(--bg-color); */
   /* padding: 0 16px; */
@@ -121,18 +120,18 @@ header {
 
 .reply-desc .reply-content .reply-item .map-wrapper .h2 {
   font-size: 16px;
-  padding: 5px 0;
+  padding: 5px;
 }
 
 .reply-desc .reply-content .reply-item .map-wrapper .h4 {
   font-size: 16px;
-  padding: 2px 0;
+  padding: 2px 5px;
   color: var(--font-color);
 }
 
 .reply-desc .reply-content .reply-item .map-wrapper .h5 {
   font-size: 14px;
-  margin: 5px 0;
+  padding: 2px 5px;
   color: rgb(183, 183, 183, 0.6);
 }
 
