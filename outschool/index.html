@@ -18,22 +18,22 @@
     <div class="form-wrapper" v-show="!visible">
       <div>
         <label for="name">姓名：</label>
-        <input type="text" id="name" v-model="name" placeholder="输入你的名字">
+        <input type="text" id="name" v-model.lazy="name" placeholder="输入你的名字">
       </div>
       <div>
         <label for="qingjia">请假类型：</label>
-        <select name="" id="qingjia" v-model='qingjia'>
+        <select name="" id="qingjia" v-model.lazy='qingjia'>
           <option value="1">事假</option>
           <option value="2">病假</option>
         </select>
       </div>
       <div>
         <label for="grade">所在班级：</label>
-        <input type="text" id="grade" v-model="grade" placeholder="输入班级，如：193班">
+        <input type="text" id="grade" v-model.lazy="grade" placeholder="输入班级，如：193班">
       </div>
       <div>
         <label for="content">请假内容：</label>
-        <input type="text" id="content" v-model="content" placeholder="输入请假理由，别太过分">
+        <input type="text" id="content" v-model.lazy="content" placeholder="输入请假理由，别太过分">
       </div>
       <input type="button" value="确认" id="confirm" @click="getHtml">
     </div>
