@@ -41,7 +41,7 @@ let vm = new Vue({
       {
         id: 7,
         name: '当前所在位置',
-        content: '2020/11/8 16:45',
+        content: '',
         type: 2
       },
       {
@@ -51,10 +51,37 @@ let vm = new Vue({
         type: 1
       },
     ],
-    updateTime: '11/08 16:45',
+    submitTime: '',
+    approvalTime: '',
     qingjia: 1,
     grade: '',
-    content:''
+    content: '',
+    name: ''
   },
-
+  mounted() {},
+  methods: {
+    getHtml() {
+      this._formatTime()
+      this.visible = true
+    },
+    hideHtml() {
+      this.visible = false
+    },
+    _formatTime() {
+      const prev = new Date(+new Date() + 3 * 2700 * 1000).toJSON().substr(0, 16).replace("T", " ").replace(/-0|-/g, '/')
+      const now = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 16).replace("T", " ")
+      this.submitTime = prev
+      this.approvalTime = now.substr(5, ).replace('-', '/')
+      let num = this._random()
+      this.replys[0].content = now.substr(0, 10).replace(/-/g, '') + '0' + num // 审批编号
+      this.replys[1].content = this.submitTime // 提交时间
+      this.replys[4].content = now.substr(0, 10).replace(/-0|-/g, '/') // 出校门时间
+      this.replys[5].content = this.content
+      this.replys[2].content = this.grade
+      this.replys[3].content = this.qingjia === 1 ? '事假' : '病假'
+    },
+    _random() {
+      return Math.random() * 200 + 100 | 0
+    }
+  }
 })
