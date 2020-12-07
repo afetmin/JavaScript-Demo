@@ -30,7 +30,7 @@
         <label for="content">请假具体内容：</label>
         <input type="text" id="content" v-model="content">
       </div>
-      <input type="button" value="确认" id="confirm">
+      <input type="button" value="确认" id="confirm" @click="genHtml">
     </div>
     <div class="container" v-show="visible">
       <div class="img-header">
