@@ -56,5 +56,9 @@ let vm = new Vue({
     grade: '',
     content:''
   },
-
+  methods: {
+    genHtml() {
+      this.visible = true
+    }
+  }
 })
