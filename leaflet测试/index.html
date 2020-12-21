@@ -2,122 +2,91 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet">
-  <script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
-  <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' /> -->
 
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
 
-    #map {
-      height: 100vh;
-    }
-    .yes {
-      z-index: 500;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      margin: 10px;
-    }
-  </style>
+        #map {
+            height: 100vh;
+        }
+
+        .yes {
+            z-index: 500;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="map"></div>
-  <button class="yes">dasdasd</button>
+    <div id="map"></div>
 </body>
 <script>
-  var btn = document.querySelector('.yes')
-  btn.onclick = justify_location
-  function addCircleMarker(obj) {
-    const {
-      lng,
-      lat,
-      value: radius
-    } = obj
-    let color = radius < 20 ? 'red' : 'blue'
-    L.circle([lat, lng], {
-      radius: radius * 2,
-      color: color,
-      stroke: false,
-      fillOpacity: 0.2,
-    }).addTo(map)
-  }
+    axios.get('data.json').then(res => {
+        let data = res.data['7-1']
+        let normalizeData = data.map(item => {
+            const { lng, lat } = item
+            return [lat, lng]
+        })
+        addPolyLine(normalizeData)
+        data.forEach(item => {
+            addCircleMarker(item)
+        })
+    })
 
-  function addPolyLine(arr) {
-    let ployline = L.polyline(arr, {
-      color: 'red'
-    }).addTo(map)
-    map.fitBounds(polyline.getBounds())
-  }
-
-  var map = L.map('map', {
-    center: [31.1774276, 121.5272106],
-    zoom: 13
-  })
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: '',
-    maxZoom: 18,
-    id: 'mapbox/light-v10',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoiYWZldG1pbiIsImEiOiJja2gydzFqamEweTNxMnVvM2dxNDNyc2g3In0.w4QOTp81VLnqOkh6PTfO1Q'
-  }).addTo(map);
-  let obj = {
-    lng:121.5272108045275,
-    lat:31.17742800708347,
-    value:50
-  }
-  addCircleMarker(obj)
-
-  function justify_location() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
-      // 支持
-      console.log("支持地理位置接口");
-    } else {
-      // 不支持
-      console.log("不支持地理位置接口");
+    function addCircleMarker(obj) {
+        const {
+            lng,
+            lat,
+            value: radius
+        } = obj
+        let color = radius < 20 ? 'red' : 'blue'
+        L.circle([lat, lng], {
+            radius: radius * 2,
+            color: color,
+            stroke: false,
+            fillOpacity: 0.2,
+        }).addTo(map)
     }
-  }
 
-  //同意授权
-
-  function geoSuccess(event) {
-    let lat = event.coords.latitude
-    let lng = event.coords.longitude
-    map.flyTo([lat, lng])
-
-
-  }
-  //拒绝授权
-
-  function geoError(error) {
-    console.log(error)
-    console.log("Error code " + error.code + ". " + error.message);
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert("定位失败,用户拒绝请求地理定位");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("定位失败,位置信息是不可用");
-        break;
-      case error.TIMEOUT:
-        alert("定位失败,请求获取用户位置超时");
-        break;
-      case error.UNKNOWN_ERROR:
-        alert("定位失败,定位系统失效");
-        break;
+    function addPolyLine(arr) {
+        let ployline = L.polyline(arr, {
+            color: 'red'
+        }).addTo(map)
+        // map.fitBounds(polyline.getBounds())
     }
-  }
+
+    var map = L.map('map', {
+        center: [38.91459, 121.618622],
+        zoom: 13
+    })
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: '',
+        maxZoom: 18,
+        id: 'mapbox/light-v10',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWZldG1pbiIsImEiOiJja2gydzFqamEweTNxMnVvM2dxNDNyc2g3In0.w4QOTp81VLnqOkh6PTfO1Q'
+    }).addTo(map);
+    let obj = {
+        lng: 121.5272108045275,
+        lat: 31.17742800708347,
+        value: 50
+    }
+    addCircleMarker(obj)
 </script>
 
 </html>
