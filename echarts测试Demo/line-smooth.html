@@ -1,121 +1,15 @@
 <!DOCTYPE html>
-<html style="height: 100%">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
+<body>
 
-<body style="height: 100%; margin: 0 ;">
-    <div id="container" style="height: 100%"></div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-    <script type="text/javascript">
-        var dom = document.getElementById("container");
-        var myChart = echarts.init(dom);
-        var colors = ['#5793f3', '#d14a61', '#675bba'];
-        option = {
-            color: colors,
-            title: {
-                text: '大连城内出行强度趋势',
-                padding: 10,
-                left:10
-            },
-            tooltip: {
-                trigger: 'none',
-                axisPointer: {
-                    type: 'cross'
-                }
-            },
-            legend: {
-                top: 8,
-                textStyle: {
-                    // color: '#fff'
-                },
-                data: ['去年城内出行强度(农历同期)', '今年城内出行强度']
-            },
-            grid: {
-                top: '10%',
-                bottom: '7%'
-            },
-            xAxis: [{
-                type: 'category',
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: colors[1]
-                    }
-                },
-                axisLabel: {
-                    // color: '#fff',
-                    rotate: 90
-                },
-                axisPointer: {
-                    label: {
-                        formatter: function (params) {
-                            return `今年城内出行强度  ${params.value}${params.seriesData.length ? '：' + params.seriesData[0].data : ''}`;
-                        }
-                    }
-                },
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            }, {
-                type: 'category',
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    show: false,
-                    lineStyle: {
-                        color: colors[0]
-                    }
-                },
-                axisLabel: {
-                    // color: '#fff',
-                    rotate: -90
-                },
-                axisPointer: {
-                    label: {
-                        formatter: function (params) {
-                            return `去年城内出行强度(农历同期)  ${params.value}${params.seriesData.length ? '：' + params.seriesData[0].data : ''}`;
-                        }
-                    }
-                },
-                data: ['正月一日', '正月二日', '正月三日', '正月四日', '正月五日', '正月六日', '正月七日']
-            }],
-            yAxis: {
-                type: 'value',
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                splitLine: {
-                    show: false
-                },
-                axisLabel: {
-                    // color: '#fff'
-                },
-            },
-            series: [{
-                name: '去年城内出行强度(农历同期)',
-                type: 'line',
-                symbol: 'circle',
-                xAxisIndex: 1,
-                smooth: true,
-                data: [1000, 900, 800, 934, 1000, 800, 500],
-            }, {
-                name: '今年城内出行强度',
-                type: 'line',
-                symbol: 'circle',
-                smooth: true,
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-            }]
-        };
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }
-    </script>
 </body>
-
+<script>
+    let arr = [1,2,3]
+    console.log(toString.call(arr))
+</script>
 </html>
