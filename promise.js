@@ -1,7 +1,7 @@
 /*
  * @Author: afetmin
  * @Date: 2021-03-12 19:52:30
- * @LastEditTime: 2021-03-12 20:04:59
+ * @LastEditTime: 2021-03-14 15:56:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \JavaScript-Demo\promise.js
@@ -49,6 +49,7 @@ class myPromise {
     if (this.state === 'REJECTED') {
       onRejected(this.value)
     }
+    return this
   }
 }
 
@@ -56,4 +57,23 @@ let p = new myPromise((resolve, reject) => {
   resolve('yes')
 })
 
-p.then(value => console.log(value))
+p.then(value => console.log(value)).then(value => console.log(value))
+
+
+// 手写promise.all
+Promise.prototype.all = function (iterators) {
+  const promises = Array.from(iterators)
+  const len = promises.length
+  const results = [], count = 0
+  return new Promise((resolve, reject) => {
+    promises.forEach((p, index) => {
+      Promise.resolve(p).then(value => {
+        count++
+        results[index] = value
+        if (count === len) {
+          resolve(results)
+        }
+      }).catch(err => { reject(err) })
+    })
+  })
+}

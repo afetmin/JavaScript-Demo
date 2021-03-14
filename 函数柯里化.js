@@ -35,4 +35,5 @@ let add = currying(function () {
   return sum;
 });
 
-add(1)(2,3)()
+console.log(add(1)(2,3))
+
