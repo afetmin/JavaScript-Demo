@@ -1,7 +1,7 @@
 /*
  * @Author: afetmin
  * @Date: 2021-03-12 19:52:30
- * @LastEditTime: 2021-03-14 15:56:29
+ * @LastEditTime: 2021-03-16 13:29:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \JavaScript-Demo\promise.js
@@ -77,3 +77,20 @@ Promise.prototype.all = function (iterators) {
     })
   })
 }
+
+
+let arr = [1,2,3,4,1,1,2,3]
+function getRepeat(arr) {
+  let res = new Set()
+  let set = new Set()
+  for(let num of arr) {
+    if(set.has(num)) {
+      res.add(num)
+    } else {
+      set.add(num)
+    }
+  }
+  return Array.from(res)
+}
+
+console.log(getRepeat(arr))
