@@ -37,6 +37,27 @@
             }, 500)
         }
     }
+    // 防抖在于重置，节流在于加锁 （红绿灯）
+    function debounce(fn, delay = 500) {
+        let timer
+        return (...args) => {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                fn.apply(this, args)
+            }, delay)
+        }
+    }
+
+    function throttle(fn, delay = 500) {
+        let timer
+        return (...args) => {
+            if(timer) return
+            timer = setTimeout(() => {
+                fn.apply(this, args)
+                timer = null
+            },delay)
+        }
+    }
 </script>
 
 </html>
