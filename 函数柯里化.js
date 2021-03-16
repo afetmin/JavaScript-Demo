@@ -13,27 +13,33 @@
 //   return _adder
 // }
 
-function currying(fn) {
-  var allArgs = [];
+// function currying(fn) {
+//   var allArgs = [];
 
-  return function next() {
-    var args = [].slice.call(arguments);
+//   return function next() {
+//     var args = [].slice.call(arguments);
 
-    if (args.length > 0) {
-      allArgs = allArgs.concat(args);
-      return next;
-    } else {
-      return fn.apply(null, allArgs);
-    }
-  }
+//     if (args.length > 0) {
+//       allArgs = allArgs.concat(args);
+//       return next;
+//     } else {
+//       return fn.apply(null, allArgs);
+//     }
+//   }
+// }
+// let add = currying(function () {
+//   var sum = 0;
+//   for (var i = 0; i < arguments.length; i++) {
+//     sum += arguments[i];
+//   }
+//   return sum;
+// });
+
+// console.log(add(1)(2, 3))
+
+// 无限累加函数
+function sum(...args) {
+  const f = (...rest) => sum(...args, ...rest);
+  f.toString = () => args.reduce((x, y) => x + y, 0)
+  return f
 }
-let add = currying(function () {
-  var sum = 0;
-  for (var i = 0; i < arguments.length; i++) {
-    sum += arguments[i];
-  }
-  return sum;
-});
-
-console.log(add(1)(2,3))
-
