@@ -43,3 +43,4 @@ function sum(...args) {
   f.toString = () => args.reduce((x, y) => x + y, 0)
   return f
 }
+console.log(sum(1,2,3)(4))
