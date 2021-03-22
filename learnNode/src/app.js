@@ -13,7 +13,6 @@ app.get('/',function(req,res,next) {
     $('#topic_list .cell').each((idx,element) => {
       const $element = $(element)
       const author = $element.children('.user_avatar').attr('href').split('/')[2]
-      // console.log($element.find('.topic_title'));
       items.push({
         index:idx,
         title: $element.find('.topic_title').attr('title'),
