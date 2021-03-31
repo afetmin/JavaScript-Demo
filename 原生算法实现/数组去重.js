@@ -11,18 +11,18 @@ function unique2(arr) {
   return res
 }
 
-function unique3(arr) {
-  arr = arr.sort((a,b) => a-b)
-  let p1 = 0,p2 = 0
-  while(p2<arr.length) {
-    if(arr[p1] !== arr[p2]) {
-      p1++
-      arr[p1] = arr[p2]
-    }
-    p2++
-  }
-  return arr
-}
+// function unique3(arr) {
+//   arr = arr.sort((a,b) => a-b)
+//   let p1 = 0,p2 = 0
+//   while(p2<arr.length) {
+//     if(arr[p1] !== arr[p2]) {
+//       p1++
+//       arr[p1] = arr[p2]
+//     }
+//     p2++
+//   }
+//   return p1+1
+// }
 
 function unique4(arr) {
   let res = arr.reduce((acc,cur) => {

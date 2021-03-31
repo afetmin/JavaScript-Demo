@@ -21,5 +21,22 @@ function quickSort(arr) {
   return quickSort(left).concat(povit, quickSort(right))
 }
 
+function bobbleSort(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    let done = true
+    for (let j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j]
+        arr[j] = arr[j + 1]
+        arr[j + 1] = temp
+        done = false
+      }
+    }
+    if (done) break
+  }
+  return arr
+}
+
+
 let arr = [3, 4, 6, 78, 2, 4, 9]
-console.log(quickSort(arr));
+console.log(bobbleSort(arr));
