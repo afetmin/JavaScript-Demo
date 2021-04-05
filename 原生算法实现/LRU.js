@@ -1,3 +1,4 @@
+// Map自带顺序
 class LRUcache {
   constructor(n) {
     this.size = n
