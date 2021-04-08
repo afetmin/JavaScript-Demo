@@ -38,9 +38,19 @@
 // console.log(add(1)(2, 3))
 
 // 无限累加函数
-function sum(...args) {
-  const f = (...rest) => sum(...args, ...rest);
-  f.toString = () => args.reduce((x, y) => x + y, 0)
-  return f
+// function sum(...args) {
+//   const f = (...rest) => sum(...args, ...rest);
+//   f.toString = () => args.reduce((x, y) => x + y, 0)
+//   return f
+// }
+
+function curry(fn, ...args) {
+  return args.length>=fn.length ? fn(...args) : (..._args) => curry(fn, ...args, ..._args)
 }
-console.log(sum(1,2,3)(4) == 10)
+
+function sum(a, b, c) {
+  return a+b+c
+}
+
+let curriedsum = curry(sum)
+console.log(curriedsum(1,2)(3))

@@ -6,6 +6,7 @@ class LRUcache {
   }
 
   set(domain, info) {
+    if (this.data.has(domain)) this.data.delete(domain)
     if (this.data.size >= this.size) {
       const firstKey = [...this.data.keys()][0]
       this.data.delete(firstKey)
