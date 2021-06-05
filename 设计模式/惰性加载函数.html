@@ -1,0 +1,37 @@
+<html>
+
+<body>
+    <div id="div1">点我绑定事件</div>
+    <script>
+
+        var addEvent = function (elem, type, handler) {
+            if (window.addEventListener) {
+                addEvent = function (elem, type, handler) {
+                    elem.addEventListener(type, handler, false);
+                }
+            } else if (window.attachEvent) {
+                addEvent = function (elem, type, handler) {
+                    elem.attachEvent('on' + type, handler);
+                }
+            }
+            /* if语句的每个分支都会为addEvent变量赋值，有效覆盖了原函数。最后一步便是调用了新赋函数。
+            下一次调用addEvent()的时候，便会直接调用新赋值的函数，这样就不用再执行if语句了。 */
+
+            return addEvent(elem, type, handler);
+        };
+
+
+        var div = document.getElementById('div1');
+
+        addEvent(div, 'click', function () {
+            alert(1);
+        });
+
+        addEvent(div, 'click', function () {
+            alert(2);
+        });
+
+    </script>
+</body>
+
+</html>

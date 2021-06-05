@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+  </head>
+  <body>
+    <form action="http:// xxx.com/register" id="registerForm" method="post">
+      请输入用户名：<input type="text" name="userName"/ > 请输入密码：<input
+      type="text" name="password"/ > 请输入手机号码：<input type="text"
+      name="phoneNumber"/ >
+      <button>提交</button>
+    </form>
+  </body>
+  <script>
+    const strategies = {
+      isNoEmpty(value, errMsg) {
+        if (value === "") {
+          return errMsg;
+        }
+      },
+      minLength(value, length, errMsg) {
+        if (value.length < length) {
+          return errMsg;
+        }
+      },
+      isMobile(value, errMsg) {
+        if (!/(^1[3|5|7|8][0-9]{9}$)/.test(value)) {
+          return errMsg;
+        }
+      }
+    };
+
+    class Validator {
+      constructor() {
+        this.cache = [];
+      }
+      add(dom, rules) {
+        for (let i = 0, rule; (rule = rules[i++]); ) {
+          const strategyArr = rule.strategy.split(":");
+          const errMsg = rule.errMsg;
+          this.cache.push(() => {
+            const strategy = strategyArr.shift();
+            strategyArr.unshift(dom.value);
+            strategyArr.push(errMsg);
+            return strategies[strategy].apply(dom, strategyArr);
+          });
+        }
+      }
+      start() {
+        for (let i = 0, validatorFunc; (validatorFunc = this.cache[i++]); ) {
+          const errMsg = validatorFunc();
+          if (errMsg) {
+            return errMsg;
+          }
+        }
+      }
+    }
+    const registerForm = document.getElementById("registerForm");
+    const validataFunc = () => {
+      const validator = new Validator();
+      validator.add(registerForm.userName, [
+        {
+          strategy: "isNoEmpty",
+          errMsg: "用户名不能为空"
+        },
+        {
+          strategy: "minLength:6",
+          errMsg: "用户名长度不能小于6"
+        }
+      ]);
+      validator.add(registerForm.password, [
+        {
+          strategy: "minLength:6",
+          errMsg: "密码长度不能小于 6 位"
+        }
+      ]);
+      validator.add(registerForm.phoneNumber, [
+        {
+          strategy: "isMobile",
+          errMsg: "手机号码格式不正确"
+        }
+      ]);
+      const errMsg = validator.start();
+      return errMsg;
+    };
+    registerForm.onsubmit = () => {
+      let errMsg = validataFunc();
+      if (errMsg) {
+        alert(errMsg);
+        return false;
+      }
+    };
+  </script>
+</html>
