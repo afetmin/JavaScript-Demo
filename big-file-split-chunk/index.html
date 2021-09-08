@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大文件上传下载</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+</head>
+
+<body>
+  <input type="file" id="fileInput" />
+  <button id="submit" onclick="uploadFile()">上传大文件</button>
+</body>
+<script>
+  const inputEl = document.getElementById('fileInput')
+
+  const request = axios.create({
+    baseURL: 'http://localhost:3000/upload',
+    timeout: 10 * 1000,
+  })
+
+  function calcFileMd5(file) {
+    let chunkSize = 2 * 1024 * 1024,
+      chunks = Math.ceil(file.size / chunkSize),
+      currentChunk = 0,
+      spark = new SparkMD5.ArrayBuffer(),
+      fileReader = new FileReader()
+
+    function loadNext() {
+      let start = currentChunk * chunkSize,
+        end = start + chunkSize >= file.size ? file.size : start + chunkSize;
+      fileReader.readAsArrayBuffer(file.slice(start, end))
+    }
+
+    return new Promise((resolve, reject) => {
+      fileReader.onload = (e) => {
+        console.log(e.target.result);
+        spark.append(e.target.result)
+        currentChunk++
+        if (currentChunk < chunks) {
+          loadNext()
+        } else {
+          resolve(spark.end())
+        }
+      }
+      fileReader.onerror = (e) => {
+        reject(fileReader.error)
+        fileReader.abort()
+      }
+
+      loadNext()
+    })
+  }
+
+  function checkFileExist(url, name, md5) {
+    return request.get(
+      url, {
+      params: {
+        name,
+        md5
+      }
+    }
+    ).then(res => res.data)
+  }
+
+  async function asyncPool(limit, array, iterorFN) {
+    const ret = []
+    const processing = []
+    for (let item of array) {
+      const p = Promise.resolve().then(() => iterorFN(item, array))
+      ret.push(p)
+
+      if (limit <= array.length) {
+        const e = p.then(() => processing.splice(processing.indexOf(e), 1))
+        processing.push(e)
+        if (processing.length >= limit) {
+          await Promise.race(processing)
+        }
+      }
+    }
+    return Promise.all(ret)
+  }
+
+  function uploadChunk({ url, chunk, chunkIndex, fileMd5, fileName }) {
+    let formData = new FormData()
+    formData.set('file', chunk, fileMd5 + '-' + chunkIndex)
+    formData.set('name', fileName)
+    formData.set('timestamp', Date.now())
+    console.log(formData);
+    return request.post(url, formData)
+  }
+
+
+  function upload({ url, file, fileMd5, fileSize, chunkSize, chunkIds, limit = 1 }) {
+    const chunks = typeof chunkSize === 'number' ? Math.ceil(fileSize / chunkSize) : 1;
+    return asyncPool(limit, [...new Array(chunks).keys()], (i) => {
+      if (chunkIds.indexOf(i + '') !== -1) {
+        return Promise.resolve()
+      }
+      const start = i * chunkSize
+      const end = i + 1 >= chunks ? fileSize : (i + 1) * chunkSize
+      const chunk = file.slice(start, end)
+      // debugger
+      return uploadChunk({
+        url,
+        chunk,
+        chunkIndex: i,
+        fileMd5,
+        fileName: file.name
+      })
+    })
+  }
+
+  function concatFiles(url, name, md5) {
+    return request.get(url, {
+      params: {
+        name,
+        md5
+      }
+    })
+  }
+
+  async function uploadFile() {
+    if (!inputEl.files.length) return
+    const file = inputEl.files[0]
+    const fileMd5 = await calcFileMd5(file)
+    const fileStatus = await checkFileExist('/exists', file.name, fileMd5)
+    if (fileStatus.data && fileStatus.data.isExists) {
+      alert('文件已上传【秒传】')
+      return
+    } else {
+      await upload({
+        url: '/single',
+        file,
+        fileMd5,
+        fileSize: file.size,
+        chunkSize: 1 * 1024 * 1024,
+        chunkIds: fileStatus.data.chunkIds,
+        limit: 3
+      })
+    }
+    await concatFiles('/concatFiles', file.name, fileMd5)
+  }
+
+</script>
+
+</html>
