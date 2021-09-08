@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>createObjectURL</title>
+</head>
+
+<body>
+  <input type="file" multiple id='fileInput' onchange="useFileReaderPreivewFiles(this.files)" />
+  <ul id="preview">
+
+  </ul>
+  <script>
+    const inputEl = document.getElementById('fileInput')
+    const ulEle = document.getElementById('preview')
+
+    function useFileReaderPreivewFiles(files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader()
+        const li = document.createElement('li')
+        ulEle.appendChild(li)
+        reader.onload = function (e) {
+          const img = new Image()
+          img.height = 100
+          img.width = 100
+          img.src = e.target.result
+          li.appendChild(img)
+        }
+        reader.readAsDataURL(file)
+      })
+    }
+
+    function previewFiles(files) {
+      Array.from(files).forEach(file => {
+        const li = document.createElement('li')
+        ulEle.appendChild(li)
+        const img = document.createElement('img')
+        img.src = URL.createObjectURL(file, { oneTimeOnly: true })
+        img.height = 100
+        img.width = 100
+        img.onload = function () {
+          URL.revokeObjectURL(this.src)
+        }
+        li.appendChild(img)
+
+      })
+    }
+
+  </script>
+</body>
+
+</html>
