@@ -100,3 +100,36 @@ function removeDup(arr) {
 
 const nums = [1, 1, 1, 2, 3, 3, 4, 5]
 console.log(removeDup(nums))
+
+function bfs(node) {
+  const nodes = []
+  const queue = []
+  if (node) {
+    queue.push(node)
+    while (queue.length) {
+      const item = queue.shift()
+      nodes.push(item)
+      for (const v of item.children) {
+        queue.push(v)
+      }
+    }
+  }
+  return nodes
+}
+
+function dfs(node) {
+  const nodes = []
+  const stack = []
+  if (node) {
+    stack.push(node)
+    while (stack.length) {
+      const item = stack.pop()
+      nodes.push(item)
+      const len = item.children.length
+      for (let i = len - 1; i >= 0; i--) {
+        stack.push(item.children[i])
+      }
+    }
+  }
+  return nodes
+}
