@@ -133,3 +133,17 @@ function dfs(node) {
   }
   return nodes
 }
+
+function encodeArray(arr) {
+  const sortedArr = Array.from(new Set(arr.sort((a, b) => a - b)))
+  let pos = 0
+  for (let i = 1; i < sortedArr.length; i++) {
+    if (sortedArr[i] - sortedArr[i - 1] !== 1) {
+      pos = i
+    }
+  }
+  return [sortedArr[0] + "->" + sortedArr[pos - 1], "" + sortedArr.slice(pos)]
+}
+
+const arr = [1, 4, 7, 3, 2, 2]
+console.log(encodeArray(arr))
