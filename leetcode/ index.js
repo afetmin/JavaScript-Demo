@@ -53,6 +53,7 @@ const hasy = "hello",
   needle = "ll"
 console.log(strStr(hasy, needle))
 
+/** 只卖一次利润最大 */
 function maxProfit(prices) {
   let profit = 0
   let min = prices[0]
@@ -67,6 +68,7 @@ function maxProfit(prices) {
   return profit
 }
 
+/** 卖多次利润最大 */
 function maxProfit2(prizes) {
   let profit = 0
   for (let i = 1; i < prizes.length; i++) {
@@ -87,7 +89,7 @@ function reverseList(head) {
   }
   return pre
 }
-/** 删除重复元素 */
+/** 原地删除重复元素 */
 function removeDup(arr) {
   let i = 0
   for (let j = 1; j < arr.length; j++) {
@@ -134,6 +136,13 @@ function dfs(node) {
   return nodes
 }
 
+/**
+ *
+ * @param {*} arr
+ * @returns
+ * @example
+ * [1,4,7,3,2] => ["1->4","7"]
+ */
 function encodeArray(arr) {
   const sortedArr = Array.from(new Set(arr.sort((a, b) => a - b)))
   let pos = 0
