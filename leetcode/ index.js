@@ -156,3 +156,27 @@ function encodeArray(arr) {
 
 const arr = [1, 4, 7, 3, 2, 2]
 console.log(encodeArray(arr))
+
+/** 判断合法括号 */
+function isValid(s) {
+  let stack = []
+  let len = s.length
+  if (len % 2 === 1) return false
+  for (let cur of s) {
+    if (cur === "(" || cur === "{" || cur === "[") {
+      stack.push(cur)
+    }
+    switch (cur) {
+      case ")":
+        if (stack.pop() !== "(") return false
+        break
+      case "]":
+        if (stack.pop() !== "[") return false
+        break
+      case "}":
+        if (stack.pop() !== "{") return false
+        break
+    }
+  }
+  return !stack.length
+}
