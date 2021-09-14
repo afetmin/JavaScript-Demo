@@ -180,3 +180,15 @@ function isValid(s) {
   }
   return !stack.length
 }
+
+/** 原地合并两个有序数组 */
+function mergeArr(nums1, m, nums2, n) {
+  let len1 = m - 1,
+    len2 = n - 1,
+    len = m + n - 1
+  while (len1 >= 0 && len2 >= 0) {
+    // 谁大插入谁，然后再--
+    nums1[len--] = nums1[len1] > nums2[len2] ? nums1[len1--] : nums2[len2--]
+  }
+  nums1.splice(0, len2 + 1, ...nums2.slice(0, len2 + 1))
+}
