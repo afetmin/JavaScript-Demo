@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web worker</title>
+</head>
+
+<body>
+  <input type="number" id="inputNumber1" value="12" onchange="handleChange()" />
+  <input type="number" id="inputNumber2" value="3" onchange="handleChange()" />
+  <input type="number" id="inputNumber3" value="" />
+  <script>
+    const number1 = document.getElementById('inputNumber1')
+    const number2 = document.getElementById('inputNumber2')
+    const number3 = document.getElementById('inputNumber3')
+    function handleChange() {
+      const worker = new Worker('./worker.js', { name: 'myWorker' })
+      worker.postMessage([number1.value, number2.value])
+      worker.onmessage = (e) => {
+        if (e.data) {
+          number3.value = e.data
+          worker.terminate()
+        }
+      }
+
+    }
+  </script>
+</body>
+
+</html>
