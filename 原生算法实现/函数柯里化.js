@@ -63,8 +63,11 @@ function curry(fn) {
     if (_args.length) {
       args = [...args, ..._args]
       return f
+    } else {
+      const val = fn(...args)
+      args = []
+      return val
     }
-    return fn(...args)
   }
 }
 
@@ -73,4 +76,5 @@ function add(...args) {
 }
 
 const curriedAdd = curry(add)
+console.log(curriedAdd(1, 2)(3)(4)())
 console.log(curriedAdd(1, 2)(3)(4)())

@@ -64,3 +64,67 @@ function arrToTree(arr) {
 }
 
 console.log(arrToTree(arr))
+
+// 转换前：
+const source = [
+  {
+    id: 1,
+    pid: 0,
+    name: "body",
+  },
+  {
+    id: 2,
+    pid: 1,
+    name: "title",
+  },
+  {
+    id: 3,
+    pid: 2,
+    name: "div",
+  },
+]
+// 转换为:
+const tree = [
+  {
+    id: 1,
+    pid: 0,
+    name: "body",
+    children: [
+      {
+        id: 2,
+        pid: 1,
+        name: "title",
+        children: [
+          {
+            id: 3,
+            pid: 2,
+            name: "div",
+          },
+        ],
+      },
+    ],
+  },
+]
+
+function jsonToTree(source) {
+  let result = []
+  if (!Array.isArray(source)) {
+    return result
+  }
+  const map = {}
+  source.forEach((it) => {
+    map[it.id] = it
+  })
+
+  source.forEach((item) => {
+    const parent = map[item.pid]
+    if (parent) {
+      ;(parent.children || (parent.children = [])).push(item)
+    } else {
+      result.push(item)
+    }
+  })
+  return result
+}
+
+console.log(JSON.stringify(jsonToTree(source)))

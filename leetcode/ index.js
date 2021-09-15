@@ -192,3 +192,33 @@ function mergeArr(nums1, m, nums2, n) {
   }
   nums1.splice(0, len2 + 1, ...nums2.slice(0, len2 + 1))
 }
+
+/**  将数字每千分位用逗号隔开 */
+function formatNumber(number) {
+  number = number.toString()
+  let decimals = "",
+    num = ""
+  if (number.indexOf(".") > -1) {
+    decimals = number.split(".")[1]
+    num = number.split(".")[0]
+  }
+  const len = num.length
+  if (len <= 3) {
+    return number
+  } else {
+    let temp = decimals ? "." + decimals : ""
+    let remainder = len % 3
+    if (remainder > 0) {
+      return (
+        num.slice(0, remainder) +
+        "," +
+        num.slice(remainder).match(/\d{3}/g).join(",") +
+        temp
+      )
+    } else {
+      return num.match(/\d{3}/g).join(",") + temp
+    }
+  }
+}
+
+console.log(formatNumber(1234567.33))

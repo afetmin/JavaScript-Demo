@@ -13,20 +13,50 @@
   <input type="number" id="inputNumber2" value="3" onchange="handleChange()" />
   <input type="number" id="inputNumber3" value="" />
   <script>
-    const number1 = document.getElementById('inputNumber1')
-    const number2 = document.getElementById('inputNumber2')
-    const number3 = document.getElementById('inputNumber3')
-    function handleChange() {
-      const worker = new Worker('./worker.js', { name: 'myWorker' })
-      worker.postMessage([number1.value, number2.value])
-      worker.onmessage = (e) => {
-        if (e.data) {
-          number3.value = e.data
-          worker.terminate()
-        }
-      }
+    // const number1 = document.getElementById('inputNumber1')
+    // const number2 = document.getElementById('inputNumber2')
+    // const number3 = document.getElementById('inputNumber3')
+    // function handleChange() {
+    //   const worker = new Worker('./worker.js', { name: 'myWorker' })
+    //   worker.postMessage([number1.value, number2.value])
+    //   worker.onmessage = (e) => {
+    //     if (e.data) {
+    //       number3.value = e.data
+    //       worker.terminate()
+    //     }
+    //   }
 
+    // }
+    // const getSpeed = (url) => {
+    //   return new Promise((resolve) => {
+    //     const start = window.performance.now()
+    //     const xhr = new XMLHttpRequest()
+    //     xhr.open("GET", url)
+    //     xhr.onreadystatechange = function () {
+    //       if (xhr.readyState === 4) {
+    //         const time = (window.performance.now() - start) / 1000
+    //         const size = xhr.getResponseHeader("Content-Length") / 1024 / 1024
+    //         console.log(time, size)
+    //         resolve(size / time)
+    //       }
+    //     }
+    //     xhr.send()
+    //   })
+    // }
+
+    const getSpeed = (url, fileSize) => {
+      return new Promise((resolve) => {
+        const start = window.performance.now()
+        const img = new Image()
+        img.onload = (e) => {
+          const time = (window.performance.now() - start) / 1000
+          console.log(time);
+          resolve(fileSize / time)
+        }
+        img.src = url
+      })
     }
+    getSpeed("./wallhaven.jpg", 3.14).then((speed) => console.log(speed))
   </script>
 </body>
 
