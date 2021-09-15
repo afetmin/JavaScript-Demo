@@ -222,3 +222,22 @@ function formatNumber(number) {
 }
 
 console.log(formatNumber(1234567.33))
+
+/**  无重复字符的最长子串 */
+function lengthOfLongestSubstring(s) {
+  let arr = [],
+    max = 0
+  for (let i of s) {
+    let index = arr.indexOf(i)
+    if (index !== -1) {
+      console.log(arr)
+      arr.splice(0, index + 1)
+    }
+    arr.push(i)
+    max = Math.max(max, arr.length)
+  }
+  return max
+}
+
+let s = "abcabcbb"
+console.log(lengthOfLongestSubstring(s))
