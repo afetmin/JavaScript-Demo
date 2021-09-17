@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>websocket</title>
+</head>
+
+<body>
+  <div>
+    <input id="input" type="text" />
+    <button id="submit">发送</button>
+  </div>
+  <span id="text"></span>
+  <script>
+    const ws = new WebSocket('ws://localhost:8080/')
+    const input = document.getElementById('input')
+    const btn = document.getElementById('submit')
+    const text = document.getElementById('text')
+
+    function createMessage(msg) {
+      if (msg) {
+        const div = document.createElement('div')
+        div.innerHTML = msg
+        document.body.appendChild(div)
+      }
+    }
+    ws.onopen = function () {
+      console.log('ws open');
+      text.innerHTML = 'ws open'
+    }
+    ws.onclose = function () {
+      console.log('ws close');
+      text.innerHTML = 'ws close'
+    }
+    ws.onmessage = function (e) {
+      createMessage(e.data)
+    }
+    btn.onclick = function () {
+      ws.send(input.value)
+      input.value = ''
+    }
+  </script>
+</body>
+
+</html>
