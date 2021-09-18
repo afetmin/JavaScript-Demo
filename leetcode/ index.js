@@ -103,6 +103,19 @@ function removeDup(arr) {
 const nums = [1, 1, 1, 2, 3, 3, 4, 5]
 console.log(removeDup(nums))
 
+/** 删除相邻重复字符 */
+var removeDuplicates = function (s) {
+  const stk = []
+  for (const ch of s) {
+    if (stk.length && stk[stk.length - 1] === ch) {
+      stk.pop()
+    } else {
+      stk.push(ch)
+    }
+  }
+  return stk.join("")
+}
+
 function bfs(node) {
   const nodes = []
   const queue = []
