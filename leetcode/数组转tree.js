@@ -128,3 +128,82 @@ function jsonToTree(source) {
 }
 
 console.log(JSON.stringify(jsonToTree(source)))
+
+// 树的筛选
+function filterTreeByFn(tree, fn) {
+  if (!Array.isArray(tree) || tree.length === 0) {
+    return []
+  }
+  return tree.filter((item) => {
+    item.children = item.children && filterTreeByFn(item.children, fn)
+    // 有children也返回true，继续筛选子项里的为true的项
+    return fn(item) || (item.children && item.children.length)
+  })
+}
+
+const fn = (item) => {
+  return (item.show = true)
+}
+
+// 查找某一项在树中的路径
+function getNodePath(tree, id) {
+  if (!Array.isArray(tree) || tree.length === 0) {
+    return []
+  }
+  const path = []
+  const treeFindPath = (tree, id, path) => {
+    // 先找第一层
+    for (const item of tree) {
+      path.push(item.id)
+      if (item.id === id) {
+        return path
+      }
+      // 找第二层及以后
+      if (item.children) {
+        const findChildren = treeFindPath(item.children, id, path)
+        if (findChildren.length) {
+          return findChildren
+        }
+      }
+      path.pop()
+    }
+    return []
+  }
+  return treeFindPath(tree, id, path)
+}
+
+// 模糊查询树
+const fuzzyQueryTree = (arr, value) => {
+  if (!Array.isArray(arr) || arr.length === 0) {
+    return []
+  }
+  let result = []
+  arr.forEach((item) => {
+    if (item.name.indexOf(value) > -1) {
+      const children = fuzzyQueryTree(item.children, value)
+      const obj = { ...item, children }
+      result.push(obj)
+    } else {
+      if (item.children && item.children.length > 0) {
+        const children = fuzzyQueryTree(item.children, value)
+        const obj = { ...item, children }
+        if (children && children.length > 0) {
+          result.push(obj)
+        }
+      }
+    }
+  })
+  return result
+}
+
+// 删除树中空的children
+const removeEmptyChildren = (tree) => {
+  tree.forEach((item) => {
+    if (item.children && item.children.length === 0) {
+      delete item.children
+    } else if (item.children && item.children.length > 0) {
+      removeEmptyChildren(item.children)
+    }
+  })
+  return tree
+}
