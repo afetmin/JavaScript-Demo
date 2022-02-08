@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 37.5 + 'px';
+  </script>
+  <style>
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .blank-cell-group,
+    .char-cell-group {
+      width: 100%;
+      flex-direction: row;
+    }
+
+    .char-cell-group {
+      margin-top: 5rem;
+      flex-wrap: wrap;
+    }
+
+    .blank-cell-group .cell-item,
+    .char-cell-group .cell-item {
+      width: 25%;
+      height: 25vw;
+      padding: .5rem;
+      box-sizing: border-box;
+    }
+
+    .blank-cell-group .cell-item .wrapper,
+    .char-cell-group .cell-item .wrapper {
+      width: 100%;
+      height: 100%;
+      border: .1rem solid #ddd;
+      box-sizing: border-box;
+    }
+
+    .char-cell-group .cell-item .wrapper {
+      border: none;
+      background-color: orange;
+      font-size: 3rem;
+      color: #fff;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="blank-cell-group">
+        <div class="cell-item">
+          <div class="wrapper"></div>
+        </div>
+        <div class="cell-item">
+          <div class="wrapper"></div>
+        </div>
+        <div class="cell-item">
+          <div class="wrapper"></div>
+        </div>
+        <div class="cell-item">
+          <div class="wrapper"></div>
+        </div>
+      </div>
+      <div class="char-cell-group">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const idioms = ['空穴来风', '南来北往', '空空如也', '南柯一梦'],
+        oCharGroup = document.querySelector('.char-cell-group')
+      let randomChar = [],
+        charAreas = [],
+        oChars = [],
+        cellX = 0,
+        cellY = 0,
+        cellW = 0,
+        cellH = 0,
+        mouseX = 0,
+        mouseY = 0,
+        startX = 0,
+        startY = 0
+
+
+      const init = () => {
+        randomChar = formatCharArr()
+        render()
+
+        oChars = oCharGroup.querySelectorAll('.cell-item .wrapper')
+        getAreas(oChars, charAreas)
+        bindEvent()
+      }
+
+
+      function bindEvent() {
+        let oChar = null
+
+        for (let i = 0; i < oChars.length; i++) {
+          oChar = oChars[i]
+          oChar.addEventListener('touchstart', handleTouchStart, false)
+          oChar.addEventListener('touchmove', handleTouchMove, false)
+          oChar.addEventListener('touchend', handleTouchEnd, false)
+        }
+
+      }
+
+      function handleTouchStart(e) {
+        cellW = this.offsetWidth
+        cellH = this.offsetHeight
+        cellX = this.offsetLeft
+        cellY = this.offsetTop
+        startX = e.touches[0].pageX
+        startY = e.touches[0].pageY
+        mouseX = startX - cellX
+        mouseY = startY - cellY
+
+        this.style.width = cellW / 10 + 'rem'
+        this.style.height = cellH / 10 + 'rem'
+        this.style.left = cellX / 10 + 'rem'
+        this.style.top = cellY / 10 + 'rem'
+        this.style.position = 'fixed'
+      }
+
+      function handleTouchMove(e) {
+        e.preventDefault()
+
+        const moveX = e.touches[0].clientX,
+          moveY = e.touches[0].clientY
+
+        cellX = moveX - mouseX
+        cellY = moveY - mouseY
+
+        this.style.left = cellX / 10 + 'rem'
+        this.style.top = cellY / 10 + 'rem'
+      }
+
+      function handleTouchEnd(e) {
+        const _index = Number(this.dataset.index),
+          charArea = charAreas[_index]
+
+        this.style.left = charArea.x / 10 + 'rem'
+        this.style.top = charArea.y / 10 + 'rem'
+      }
+
+      function getAreas(domColl, arrWrapper) {
+        let startX = 0,
+          startY = 0,
+          oItem = null;
+
+        for (let i = 0; i < domColl.length; i++) {
+          oItem = domColl[i]
+          startX = oItem.offsetLeft
+          startY = oItem.offsetTop
+          arrWrapper.push({
+            x: startX,
+            y: startY,
+            w: oItem.offsetWidth,
+            h: oItem.offsetHeight
+          })
+        }
+        console.log(arrWrapper)
+      }
+      function render() {
+        let list = ''
+        randomChar.forEach((item, index) => {
+          list += charCellTpl(item, index)
+        })
+        oCharGroup.innerHTML = list
+      }
+
+      function formatCharArr() {
+        let _arr = []
+        idioms.forEach(item => {
+          _arr = _arr.concat(item.split(''))
+        })
+
+        return randomSort(_arr)
+      }
+
+      function randomSort(arr) {
+        return arr.sort(() => {
+          return Math.random() > 0.5 ? 1 : -1
+        })
+      }
+
+      function charCellTpl(char, index) {
+        return `<div class="cell-item" >
+          <div class="wrapper" data-index="${index}">${char}</div>
+        </div>`
+      }
+
+      init()
+    })()
+
+  </script>
+</body>
+
+</html>
