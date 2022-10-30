@@ -1,0 +1,13 @@
+{
+  "name": "generateshit",
+  "version": "1.0.0",
+  "description": "generate a shit article",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "ranxiu",
+  "license": "MIT"
+}
