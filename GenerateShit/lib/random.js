@@ -15,9 +15,3 @@ export function createRandomPicker(arr) {
     randomPick(); // 丢掉第一次的结果
     return randomPick;
 }
-
-
-
-Array.from(new Array(10).fill(0)).map(() => {
-    console.log(randomInt(200, 500));
-})
